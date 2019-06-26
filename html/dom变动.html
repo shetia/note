@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+    <button class="insert">insert</button>
+    <button class="delete">delete</button>
+    <button class="changeworld">changes</button>
+    <div class="deletediv" style="width: 100px;height: 100px;background-color: red;">准备拿来删除的div</div>
+    <div class="textmodified" style="width: 100px;height: 100px;background-color: green;">用来修改文字的</div>
+    <script>
+        document.querySelector(".insert").addEventListener("click", function (event) {
+            var a = document.createElement("div");
+            a.className = "myinsertdiv"
+            a.style = "background-color:#000000;width:200px;height:200px;";
+            document.querySelector("body").appendChild(a);
+
+        });
+        document.querySelector(".delete").addEventListener("click", function (event) {
+            document.querySelector("body").removeChild(document.querySelector(".deletediv"));
+
+        });
+
+        document.querySelector(".changeworld").addEventListener("click", function (event) {
+            document.querySelector(".textmodified").innerText = "文字已经被修改了"
+
+        });
+        //当变动的时候
+        document.addEventListener("DOMSubtreeModified", function (e) {
+            console.log("dom发生变动")
+            console.log(e);
+        })
+        document.addEventListener("DOMNodeInserted", function (e) {
+            console.log("有元素被加入")
+            console.log(e);
+        })
+        document.addEventListener("DOMNodeRemoved", function (e) {
+            console.log("有元素被移除")
+            console.log(e);
+
+        })
+        document.addEventListener("DOMCharacterDataModified", function (e) {
+            console.log("有dom文本发生变化")
+            console.log(e);
+        })
+        document.querySelector(".textmodified").addEventListener("DOMCharacterDataModified", function (e) {
+            console.log("设置在即将改变的div上的监听事件有dom文本发生变化")
+            console.log(e);
+        })
+    </script>
+</body>
+
+</html>

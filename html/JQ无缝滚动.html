@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+    <script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
+    　　
+    <!-- 覆盖默认切换效果 为匀速 -->
+    　　<style>
+        /*插件外层容器 用来定义宽高等其他样式*/
+        .swiper-container {
+            width: 600px;
+            height: 300px;
+        }
+
+        /*插件的wrapper 这是关键， 覆盖插件默认切换效果为匀速*/
+        .swiper-wrapper {
+            transition-timing-function: linear;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+            <div class="swiper-slide">Slide 4</div>
+            <div class="swiper-slide">Slide 5</div>
+            <div class="swiper-slide">Slide 6</div>
+            <div class="swiper-slide">Slide 7</div>
+        </div>
+    </div>
+    <script>
+        var mySwiper = new Swiper('.swiper-container', {
+            autoplay: 1, //自动滚动
+            loop: true, //循环
+            speed: 5000, //滚动速度
+            slidesPerView: 4, //slide可见数量
+            spaceBetween: 10 //slide之间的距离（单位px）
+        })
+    </script>
+</body>
+
+</html>
