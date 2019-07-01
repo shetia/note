@@ -1,4 +1,4 @@
-### css 技巧
+# css 技巧
 
 使用技巧会让人变的越来越懒，没错，我就是想让你变懒。下面是我收集的CSS高级技巧，希望你懒出境界。
 
@@ -70,6 +70,7 @@
 这样文本元素就可以很容易地从 body 继承。
 
 ### 5. 所有一切都垂直居中
+
 要将所有元素垂直居中，太简单了：
 ``` css
     html, body {
@@ -227,6 +228,7 @@ HTML：
     }
 ```
 ### 16. CSS 写出三角形
+
 /* create an arrow that points up */
 ``` css
     div.arrow-up {
@@ -249,10 +251,7 @@ HTML：
         font-size:0px;
         line-height:0px;
     }
-
-
     /* create an arrow that points left */
-
     div.arrow-left {
         width:0px;
         height:0px;

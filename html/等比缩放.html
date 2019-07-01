@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .box {
+            width: 100%;
+            height: 100%;
+            background: yellowgreen;
+        }
+
+        .inside {
+            width: 50%;
+            height: 0;
+            padding-bottom: 30%;
+            background: hotpink;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="inside">
+
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    let box = document.querySelector('.box')
+    let inside = document.querySelector('.inside')
+    // console.dir(box)
+    console.dir(inside)
+    window.onresize = function () {
+        console.log(box.offsetWidth)
+        console.log(box.offsetHeight)
+        console.log(inside.offsetWidth, 'inside')
+        console.log(inside.offsetHeight, 'inside')
+        console.log('++++++++++++++++++++++++++')
+    }
+</script>

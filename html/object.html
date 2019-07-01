@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="box" oninput="inputChange()">
+    <span id="tip"></span>
+</body>
+
+</html>
+<script>
+    // data.name = 'dmq'; // 哈哈哈，监听到值变化了 kindeng --> dmq
+    let box = document.getElementById('box')
+    let tip = document.getElementById('tip')
+
+
+
+    var data = {
+        name: 'kindeng'
+    };
+    observe(data);
+    console.log(data.name)
+    data.name = '45'
+
+    function inputChange() {
+        data.name = box.value
+        tip.innerHTML = data.name
+    }
+
+    function observe(data) {
+        if (!data || typeof data !== 'object') {
+            return;
+        }
+        // 取出所有属性遍历
+        Object.keys(data).forEach(function (key) {
+            defineReactive(data, key, data[key]);
+        });
+    };
+
+    function defineReactive(data, key, val) {
+        observe(val); // 监听子属性
+        Object.defineProperty(data, key, {
+            enumerable: true, // 可枚举
+            configurable: false, // 不能再define
+            get: function () {
+                console.log('获取到值了:' + val)
+                return val;
+            },
+            set: function (newVal) {
+                console.log('哈哈哈，监听到值变化了 ', val, ' --> ', newVal);
+                val = newVal;
+            }
+        });
+    }
+</script>

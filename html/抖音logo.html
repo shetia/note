@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .jitter {
+            position: relative;
+            width: 200px;
+            margin: 100px auto;
+        }
+
+        .logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 47px;
+            height: 218px;
+            z-index: 1;
+            background: #24f6f0;
+        }
+
+        .logo::after {
+            content: "";
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border: 40px solid #24f6f0;
+            border-right: 40px solid transparent;
+            border-top: 40px solid transparent;
+            border-left: 40px solid transparent;
+            top: -110px;
+            right: -183px;
+            border-radius: 100%;
+            transform: rotate(45deg);
+            z-index: -10;
+        }
+
+        .logo::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 47px solid #24f6f0;
+            border-top: 47px solid transparent;
+            border-radius: 50%;
+            top: 121px;
+            left: -147px;
+            transform: rotate(45deg);
+        }
+
+        .logo:last-child {
+            left: 10px;
+            top: 10px;
+            background: #fe2d52;
+            z-index: 100;
+            mix-blend-mode: lighten;
+            animation: move 10s infinite;
+        }
+
+        /* // 填充红色 */
+        .logo:last-child::before {
+            border: 47px solid #fe2d52;
+            border-top: 47px solid transparent;
+        }
+
+        .logo:last-child::after {
+            border: 40px solid #fe2d52;
+            border-right: 40px solid transparent;
+            border-top: 40px solid transparent;
+            border-left: 40px solid transparent;
+        }
+
+        /* CSS3 新增了一个很有意思的属性 -- mix-blend-mode ，其中 mix 和 blend 的中文意译均为混合，那么这个属性的作用直译过来就是混合混合模式，当然，我们我们通常称之为混合模式。 */
+        /*
+        mix-blend-mode: normal;         // 正常
+        mix-blend-mode: multiply;       // 正片叠底
+        mix-blend-mode: screen;         // 滤色
+        mix-blend-mode: overlay;        // 叠加
+        mix-blend-mode: darken;         // 变暗
+        mix-blend-mode: lighten;        // 变亮
+        mix-blend-mode: color-dodge;    // 颜色减淡
+        mix-blend-mode: color-burn;     // 颜色加深
+        mix-blend-mode: hard-light;     // 强光
+        mix-blend-mode: soft-light;     // 柔光
+        mix-blend-mode: difference;     // 差值
+        mix-blend-mode: exclusion;      // 排除
+        mix-blend-mode: hue;            // 色相
+        mix-blend-mode: saturation;     // 饱和度
+        mix-blend-mode: color;          // 颜色
+        mix-blend-mode: luminosity;     // 亮度
+
+        mix-blend-mode: initial;
+        mix-blend-mode: inherit;
+        mix-blend-mode: unset;
+
+         */
+
+        @keyframes move {
+            0% {
+                transform: translate(200px);
+            }
+
+            50% {
+                transform: translate(0px);
+            }
+
+            100% {
+                transform: translate(0px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="jitter">
+        <div class="logo"></div>
+        <div class="logo"></div>
+    </div>
+</body>
+
+</html>
