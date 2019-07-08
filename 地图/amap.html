@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=abbb347ed95c719d0ddaf68aeb52e8a4&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Geocoder,AMap.Driving">
+    </script>
+    <!-- <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=4287366c59b4820fbd639e69d94dabcc&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Geocoder,AMap.Driving">
+    </script> -->
+    <script type="text/javascript" src="./img.js">
+    </script>
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #el {
+            width: 100%;
+            height: 100%;
+        }
+
+        .search {
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+            line-height: 50px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, .5);
+        }
+
+        .search-input {
+            width: 180px;
+            border: 1px solid #ccc;
+            height: 24px;
+            border-radius: 5px;
+            color: #666;
+            font-size: 16px;
+            padding: 5px 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, .5);
+        }
+
+        .search-btn {
+            background: linear-gradient(#999, #666);
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .search-btn:hover {
+            opacity: 0.7;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 90%;
+        }
+
+        .box {
+            width: 200px;
+            min-height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            background: #fff;
+            position: fixed;
+            z-index: 99;
+            left: 10px;
+            top: 80px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, .3);
+        }
+
+        .box-list {
+            margin-top: 20px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, .3);
+            list-style-type: none;
+            padding: 0px 10px;
+        }
+
+        .box-list li {
+            padding: 10px 2px;
+            border-bottom: 1px solid #ccc;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .box-list li:hover {
+            background: rgba(0, 0, 0, .3);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="el">
+        <div class="search">
+            <input type="text" id="inputStart" class="search-input" placeholder="请输入开始地址">
+            <input type="text" id="inputEnd" class="search-input" placeholder="请输入结束地址">
+            <button id="searchBtn" class="search-btn">搜索</button>
+            <button id="clearBtn" class="search-btn">清除标志</button>
+            <div class="">
+
+            </div>
+        </div>
+
+        <div id="mapContainer" class="map-container"></div>
+        <div class="box">
+            <input type="text" id="searchAddress" class="search-input" placeholder="请输入搜索地址">
+            <ul class="box-list" id="boxList">
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    const delay = (() => {
+        let timer = 0
+        return (callback, ms) => {
+            clearTimeout(timer)
+            timer = setTimeout(callback, ms)
+        }
+    })()
+    let inputStart = document.getElementById("inputStart")
+    let inputEnd = document.getElementById("inputEnd")
+    let searchBtn = document.getElementById("searchBtn")
+    let clearBtn = document.getElementById("clearBtn")
+    let searchAddress = document.getElementById("searchAddress")
+    let boxList = document.getElementById("boxList")
+    /*
+       startPointPic
+            wayPointPic
+            endPointPic
+    */
+    let map = null
+    let _mapConfig = {
+        resizeEnable: true, // 是否监控地图容器尺寸变化
+        zoom: 12, // 初始化地图层级
+        dragEnable: true, // 地图是否可通过鼠标拖拽平移，默认为true
+        //center: [this.orderInfo.fromLng, this.orderInfo.fromLat], // 初始化地图中心点
+        zoomEnable: true, //地图是否可缩放，默认值为true
+        rotateEnable: false, // 地图是否可旋转，3D视图默认为true，2D视图默认false
+        // 北纬23.1066805,东经113.3245904 广州塔
+        center: [113.3245904, 23.1066805]
+    }
+    //初始化标记和地图
+    map = new AMap.Map('mapContainer', _mapConfig)
+    // 添加标记
+    let marker = new AMap.Marker({
+        position: _mapConfig.center, // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+        icon: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+        offset: new AMap.Pixel(-20, -62),
+        title: '广州塔'
+    });
+    // 将创建的点标记添加到已有的地图实例：
+    map.add(marker);
+    // 设置点标记的动画效果，此处为弹跳效果
+    marker.setAnimation('AMAP_ANIMATION_BOUNCE');
+
+    let positionList = []
+    let mapClick = map.on('click', e => {
+        let position = [e.lnglat.lng, e.lnglat.lat]
+        positionList.push(position)
+        let marker = new AMap.Marker({
+            position: position, // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+            icon: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+            offset: new AMap.Pixel(-20, -62),
+        })
+        map.add(marker);
+        console.log(positionList, 'positionList')
+
+    })
+    clearBtn.onclick = () => {
+        map.clearMap();
+    }
+
+
+
+
+
+
+    searchAddress.oninput = () => {
+        delay(() => {
+            boxList.innerHTML = ''
+            keywordSearch(searchAddress.value)
+        }, 300)
+    }
+
+
+
+
+
+
+
+
+    // 关键字搜索
+    let poisList = []
+
+    function keywordSearch(keywords) {
+
+        AMap.plugin('AMap.PlaceSearch', function () { //回调函数
+            //实例化PlaceSearch
+            placeSearch = new AMap.PlaceSearch({
+                pageSize: 5, //每页显示多少行
+                pageIndex: 1, //显示的下标从那个开始
+                type: '餐饮服务', //类别，可以以|后面加其他类
+                city: "010", //城市
+                map: map, //显示地图
+                panel: "result" //服务显示的面板
+            });
+            //TODO: 使用placeSearch对象调用关键字搜索的功能
+            placeSearch.search(keywords, function (status, result) {
+                console.log(result, '搜索地址列表')
+                if (result.info === 'OK') {
+                    let list = result.poiList.pois || null
+                    if (list) {
+                        let str = ''
+                        list.forEach(item => {
+                            str += `<li>${item.name}</li>`
+                        });
+                        boxList.innerHTML = str
+                    }
+                }
+            });
+        })
+    }
+
+
+
+    // 高德地图查询周边
+    function aMapSearchNearBy(centerPoint) {
+        AMap.service(["AMap.PlaceSearch"], () => {
+            var placeSearch = new AMap.PlaceSearch({
+                pageSize: 10, // 每页10条
+                pageIndex: 1, // 获取第一页
+                // city: city       // 指定城市名(如果你获取不到城市名称，这个参数也可以不传，注释掉)
+            })
+
+            // 第一个参数是关键字，这里传入的空表示不需要根据关键字过滤
+            // 第二个参数是经纬度，数组类型
+            // 第三个参数是半径，周边的范围
+            // 第四个参数为回调函数
+            placeSearch.searchNearBy('', centerPoint, 1000, (status, result) => {
+                if (result.info === 'OK') {
+                    let locationList = result.poiList.pois // 周边地标建筑列表
+                } else {
+                    this.$toast('未获取到附近地址')
+                }
+            })
+        })
+    }
+</script>

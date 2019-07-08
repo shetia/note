@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #dialog {
+            position: fixed;
+            top: 0px;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+
+            background: rgba(0, 0, 0, .5);
+            z-index: 9;
+            display: none;
+        }
+
+        .box {
+            width: 400px;
+            height: 200px;
+            background: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+
+        }
+
+        .btn {
+            position: absolute;
+            bottom: 10px;
+            left: 0px;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+
+    </div>
+    <div id="dialog">
+        <div class="box">
+            <div class="content">你好，世界！</div>
+            <div class="btn">
+                <button id="cancel">取消</button>
+                <button id="confirm">确定</button>
+            </div>
+        </div>
+    </div>
+    <button id="btn">弹框</button>
+    <button id="btn1">点击1</button>
+    <button id="btn2">点击2</button>
+</body>
+
+</html>
+<script>
+    let btn = document.getElementById('btn')
+    let btn1 = document.getElementById('btn1')
+    let btn2 = document.getElementById('btn2')
+    let confirm = document.getElementById('confirm')
+    let cancel = document.getElementById('cancel')
+    let dialog = document.getElementById('dialog')
+
+    function* fn() {
+        yield touchEvent();
+        confirmFn();
+        submit();
+    }
+    var newFn = fn()
+
+    function touchEvent() {
+        dialog.style.display = 'block'
+    }
+
+    function step1() {
+        console.log(newFn.next())
+    }
+
+    function step2() {
+        console.log(newFn.next())
+    }
+
+    function cancel1() {
+        dialog.style.display = 'none'
+    }
+
+    function confirmFn() {
+        console.log(newFn.next())
+
+    }
+
+    function submit() {
+        console.log('tijiao')
+    }
+
+    function* fn1() {
+        yield 'hahah'
+    }
+    btn.onclick = touchEvent
+    btn1.onclick = step1
+    btn2.onclick = step2
+    cancel.onclick = cancel1
+    confirm.onclick = confirmFn
+</script>
