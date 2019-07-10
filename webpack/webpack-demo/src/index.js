@@ -1,0 +1,1 @@
+document.write('Hello webpack4!哈哈')

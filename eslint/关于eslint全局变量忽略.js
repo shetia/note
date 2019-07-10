@@ -1,0 +1,1 @@
+// 方法一：可在用到全局变量的文件内加注释：/*global PARAMS, AMap, fxAPI*/

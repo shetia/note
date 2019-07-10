@@ -1,0 +1,12 @@
+html,
+body {
+  background: yellow;
+  text-align: center; }
+
+.title {
+  font-size: 32px;
+  font-family: fantasy; }
+
+.title span {
+  color: #fff; }
+
