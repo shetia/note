@@ -27,48 +27,79 @@
 
 
     // 画一个菱形
-    for (let i = 0; i < 6; i++) {
-        for (let j = 6; j > i; j--) {
-            document.writeln('&nbsp;')
-        }
-        for (var k = 0; k < 2 * i + 1; k++) {
-            document.writeln('*')
-        }
-        document.writeln('<br/>')
-    }
-    for (var i = 5; i > 0; i--) {
-        for (var j = 6; j >= i; j--) {
-            document.writeln('&nbsp;')
-        }
-        for (var k = 0; k < 2 * i - 1; k++) {
-            document.writeln('*')
-        }
-        document.writeln('<br/>')
-    }
+    // for (let i = 0; i < 6; i++) {
+    //     for (let j = 6; j > i; j--) {
+    //         document.writeln('&nbsp;')
+    //     }
+    //     for (var k = 0; k < 2 * i + 1; k++) {
+    //         document.writeln('*')
+    //     }
+    //     document.writeln('<br/>')
+    // }
+    // for (var i = 5; i > 0; i--) {
+    //     for (var j = 6; j >= i; j--) {
+    //         document.writeln('&nbsp;')
+    //     }
+    //     for (var k = 0; k < 2 * i - 1; k++) {
+    //         document.writeln('*')
+    //     }
+    //     document.writeln('<br/>')
+    // }
 
-    // 画一个空心菱形
-    for (var i = 0; i < 6; i++) {
-        for (var j = 6; j > i; j--) { // 打印*号前面的空格
-            document.writeln('&nbsp;')
+    // // 画一个空心菱形
+    // for (var i = 0; i < 6; i++) {
+    //     for (var j = 6; j > i; j--) { // 打印*号前面的空格
+    //         document.writeln('&nbsp;')
+    //     }
+    //     for (var k = 1; k <= (2 * i - 1); k++) {
+    //         if (k === 1 || k == (2 * i - 1)) {
+    //             document.writeln('*')
+    //         } else {
+    //             document.writeln('&nbsp;')
+    //         }
+    //     }
+    //     document.writeln('<br/>')
+    // }
+    // for (var i = 4; i > 0; i--) {
+    //     for (var k = 5; k >= i; k--) {
+    //         document.writeln('&nbsp;')
+    //     }
+    //     for (var j = 1; j <= (2 * i - 1); j++) {
+    //         if (j === 1 || j === (2 * i - 1)) {
+    //             document.writeln('*')
+    //         } else {
+    //             document.writeln('&nbsp;')
+    //         }
+    //     }
+    //     document.writeln('<br/>')
+    // }
+
+
+
+
+    for (let i = 0; i < 16; i++) {
+        for (let j = 16; j > i; j--) {
+            document.writeln('&nbsp')
         }
-        for (var k = 1; k <= (2 * i - 1); k++) {
-            if (k === 1 || k == (2 * i - 1)) {
+        for (let k = 0; k <= (2 * i - 1); k++) {
+            if (k === 1 || k === (2 * i - 1)) {
                 document.writeln('*')
+
             } else {
-                document.writeln('&nbsp;')
+                document.writeln('&nbsp')
             }
         }
         document.writeln('<br/>')
     }
-    for (var i = 4; i > 0; i--) {
-        for (var k = 5; k >= i; k--) {
-            document.writeln('&nbsp;')
+    for (let i = 14; i > 0; i--) {
+        for (let j = 15; j >= i; j--) {
+            document.writeln('&nbsp ')
         }
-        for (var j = 1; j <= (2 * i - 1); j++) {
-            if (j === 1 || j === (2 * i - 1)) {
+        for (let k = 0; k <= (2 * i - 1); k++) {
+            if (k === 1 || k === (2 * i - 1)) {
                 document.writeln('*')
             } else {
-                document.writeln('&nbsp;')
+                document.writeln('&nbsp')
             }
         }
         document.writeln('<br/>')
