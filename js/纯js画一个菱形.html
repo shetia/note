@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>纯js画一个菱形</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    // h画一个三角形
+    // for (let i = 0; i < 5; i++) {
+    //     for (let j = 5; j > i; j--) {
+    //         document.write('&nbsp;')
+    //     }
+    //     for (let k = 0; k < i * 2 + 1; k++) {
+    //         document.write('*')
+    //     }
+    //     document.write('<br/>')
+    // }
+
+
+    // 画一个菱形
+    for (let i = 0; i < 6; i++) {
+        for (let j = 6; j > i; j--) {
+            document.writeln('&nbsp;')
+        }
+        for (var k = 0; k < 2 * i + 1; k++) {
+            document.writeln('*')
+        }
+        document.writeln('<br/>')
+    }
+    for (var i = 5; i > 0; i--) {
+        for (var j = 6; j >= i; j--) {
+            document.writeln('&nbsp;')
+        }
+        for (var k = 0; k < 2 * i - 1; k++) {
+            document.writeln('*')
+        }
+        document.writeln('<br/>')
+    }
+
+    // 画一个空心菱形
+    for (var i = 0; i < 6; i++) {
+        for (var j = 6; j > i; j--) { // 打印*号前面的空格
+            document.writeln('&nbsp;')
+        }
+        for (var k = 1; k <= (2 * i - 1); k++) {
+            if (k === 1 || k == (2 * i - 1)) {
+                document.writeln('*')
+            } else {
+                document.writeln('&nbsp;')
+            }
+        }
+        document.writeln('<br/>')
+    }
+    for (var i = 4; i > 0; i--) {
+        for (var k = 5; k >= i; k--) {
+            document.writeln('&nbsp;')
+        }
+        for (var j = 1; j <= (2 * i - 1); j++) {
+            if (j === 1 || j === (2 * i - 1)) {
+                document.writeln('*')
+            } else {
+                document.writeln('&nbsp;')
+            }
+        }
+        document.writeln('<br/>')
+    }
+</script>
