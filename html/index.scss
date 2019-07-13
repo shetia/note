@@ -1,0 +1,54 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+
+}
+
+.box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .header,
+  .footer {
+    background: hotpink;
+    width: 100%;
+    height: 50px;
+
+  }
+
+  .middle {
+    flex: 1;
+    background: yellowgreen;
+    overflow: scroll;
+    position: relative;
+
+    .leftSide,
+    .rightSide {
+      width: 150px;
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+
+      background: #ccc;
+    }
+
+    .leftSide {
+      left: 0px;
+    }
+
+    >.rightSide {
+      right: 0px;
+    }
+
+
+    .content {
+      padding: 0px 150px;
+      // overflow: scroll;
+    }
+  }
+}
