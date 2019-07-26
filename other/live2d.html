@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+</body>
+
+</html>
+<script>
+  let obj = {
+    chitose: 'live2d-widget-model-chitose', //帅哥
+    haruto: 'live2d-widget-model-haruto',//小子
+    hibiki: 'live2d-widget-model-hibiki',//初中女生
+    hijiki: 'live2d-widget-model-hijiki',//黑猫
+    izumi: 'live2d-widget-model-izumi', // 美女
+    koharu: 'live2d-widget-model-koharu',//小女生
+    miku: 'live2d-widget-model-miku',  // 初音未来
+    'ni-j': 'live2d-widget-model-ni-j',//机器小子
+    nico: 'live2d-widget-model-nico', //狐狸
+    nietzsche: 'live2d-widget-model-nietzsche',
+    nipsilon: 'live2d-widget-model-nipsilon',//小红女
+    nito: 'live2d-widget-model-nito',    //小女生
+    shizuku: 'live2d-widget-model-shizuku', //书桌女
+    tororo: 'live2d-widget-model-tororo',  //小猫咪
+    tsumiki: 'live2d-widget-model-tsumiki', //绿头发女生
+    unitychan: "live2d-widget-model-unitychan", //黄头发
+    wanko: 'live2d-widget-model-wanko',//碗狗
+    z16: 'live2d-widget-model-z16',//帽子女
+  }
+  // 初始化的jsonPath为： https://unpkg.com/2D模型全名称@1.0.5/assets/模型.model.json
+  // 例如：https://unpkg.com/live2d-widget-model-chitose@1.0.5/assets/chitose.model.json
+  let pathName = function (name) {
+
+    return `https://unpkg.com/${obj[name]}@1.0.5/assets/${name}.model.json`
+  }
+
+  L2Dwidget.init({
+    "model": {
+      "jsonPath": pathName('chitose'),
+      "scale": 1
+    },
+    "display": {
+      "position": "right",
+      "width": 150,
+      "height": 300,
+      "hOffset": 10,
+      "vOffset": -120
+    },
+    "mobile": {
+      "show": true,
+      "scale": 0.5
+    },
+    "react": {
+      "opacityDefault": 0.7,
+      "opacityOnHover": 0.2
+    }
+  });
+
+
+
+</script>
