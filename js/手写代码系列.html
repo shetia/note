@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="input">
+  <span id="span"></span>
+</body>
+</html>
+<script>
+  // instanceof  用来测试一个对象在其原型链中是否存在一个构造函数的 prototype 属性  可用于判断一个变量是否某个对象的实例
+  /* 
+    思路：右边的变量的原型存在于左边的变量的原型上
+  */
+
+  function _instanceof(left, right){
+    let leftValue = left.__proto__
+    let rightValue = right.prototype
+    while(true){
+      if(leftValue === null){
+        return false
+      }
+      if(leftValue === rightValue){
+        return true
+      }
+      leftValue = leftValue.__proto__
+    }
+  }
+  // console.log(_instanceof([],Array))
+  // console.log([] instanceof Array)
+
+  /* 
+    new 的本质
+
+  */
+  function _new(fn){
+    return function(){
+      // 创建一个新对象且将其隐式原型指向构造函数原型
+      let obj = {
+        __proto__:fn.prototype
+      }
+      // 执行构造函数
+      fn.call(obj,...arguments)
+      // 返回该对象
+      return obj
+    }
+  }
+  // function person(name,age){
+  //   this.name = name
+  //   this.age = age
+  // }
+  // let obj = _new(person)('shetia',26)
+  // let obj1 = new person('lizi',26)
+  // console.log(obj) //person {name: "shetia", age: 26}
+  // console.log(obj1) //person {name: "lizi", age: 26}
+
+
+  /* 
+    实现一个基本的promise
+    未添加异步处理等其他边界情况
+    自动执行函数，三个状态，then
+  */
+ class _Promise{
+   constructor(fn){
+    //  三个状态
+    this.state = 'pending'
+    this.value = undefined
+    this.reason = undefined
+
+    let resolve = value=>{
+      if(this.state === 'pending'){
+        this.state = 'fulfilled'
+        this.value  = value
+      }
+    }
+
+    let reject = value =>{
+      if(this.state === 'pending'){
+        this.state = 'rejected'
+        this.reason = value
+      }
+    }
+
+    // 自动执行函数
+    try{
+      fn(resolve,reject)
+    }catch(e){
+      reject(e)
+    }
+
+   }
+
+  //  then
+  then(onFulfilled, onRejected){
+    switch(this.state){
+      case 'fulfilled':
+        onFulfilled()
+        break
+      case 'rejected':
+        onRejected()
+        break
+      default:
+    }
+  }
+ }
+
+ /* 
+  实现浅拷贝 浅拷贝区别于直接赋值 浅拷贝只复制一层对象的属性，并不包括对象里面的为引用类型的数据
+ */
+  // 1. ...实现
+  let a = {x:1,y:{c:3}}
+  let copy1 = {...a}
+  // 2. Object.assign
+  let copy2 = Object.assign({},a)
+  // a.x = 2
+  // console.log(a)
+  // console.log(copy1)
+  // copy1.x = 'hello'
+  // copy1.y.c = 'world'
+  // console.log(copy2) 
+
+
+  /* 
+    实现一个基本的深拷贝
+  */
+  //  1.JSON.stringify()/JSON.parse()
+    let obj = {a:1,b:{x:3}}
+    JSON.parse(JSON.stringify(obj))
+
+  // 2.递归拷贝
+  function deepClone(obj){
+    let copy = obj instanceof Array ? [] : {}
+    for(let prop in obj){
+      if(obj.hasOwnProperty(prop)){ //这个方法会查找一个对象是否有某个属性，但是不会去查找它的原型链
+        copy[prop] = typeof obj[prop] === 'object' ? deepClone(obj[prop]) : obj[prop]
+      }
+    }
+    return copy
+  }
+
+  // let copyObj = deepClone(obj)
+  // copyObj.b.x = '9527'
+  // console.log(obj)
+  // console.log(copyObj)
+
+  /* 使用setTimeout 模拟setInterval */
+  // 可避免setInterval因执行时间导致的间隔执行时间不一致
+  // let num = 0
+  // setTimeout(function(){
+  //   console.log(++num)
+  //   setTimeout(arguments.callee,1000)
+  // },1000)
+
+  /* js实现一个继承方法  */
+  // 借用构造函数实例属性
+  function Parent(){
+
+  }
+  function Child(){
+    Parent.call(this)
+  }
+  // 寄生继承原型属性
+  (function(){
+    let Supper = function(){}
+    Supper.prototype = Parent.prototype
+    Child.prototype = new Supper()
+  })()
+
+  /* 实现一个基本的Event Bus */
+  // 组件通信，一个触发与监听的过程
+  class EventEmitter{
+    constructor(){
+      // 存储事件
+      this.events = this.events || new Map()
+    }
+    // 监听事件
+    $on(type, fn){
+      if(!this.events.get(type)){
+        this.events.set(type, fn)
+      }
+    }
+
+    // 触发事件
+    $emit(type){
+      let handle = this.events.get(type)
+      handle.apply(this,[...arguments].slice(1))
+    }
+  }
+
+  // let emitter = new EventEmitter()
+  // emitter.$on('ages',age=>{
+  //   console.log(age)
+  // })
+
+  // emitter.$emit('ages',18)
+
+
+  /* 实现一个双向数据绑定 */
+  let obj2 = {}
+  let input = document.getElementById('input')
+  let span = document.getElementById('span')
+  // 数据挟持
+  Object.defineProperty(obj2,'text',{
+    configurable:true,
+    enumerable:true,
+    get(){
+      console.log('获取了数据了')
+    },
+    set(newVal){
+      console.log('数据更新了')
+      input.value = newVal
+      span.innerHTML = newVal
+    }
+  })
+
+  input.addEventListener('input',function(e){
+    obj2.text = e.target.value
+  })
+
+
+  
+</script>
