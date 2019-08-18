@@ -31,6 +31,7 @@
 ###### 六级标题 #####
 ```
 效果如下图：
+
 ![标题](./image/标题.webp "标题")
 
 
@@ -53,6 +54,7 @@
 * i
 ```
 以上三种形式，效果其实都是一样的：
+
 ![无序列表](./image/无序列表.webp)
 
 有序列表
@@ -66,8 +68,8 @@
 3. ghi
 5. hij
 ```
-效果图
-：![有序列表](./image/有序列表.webp)
+效果图：
+![有序列表](./image/有序列表.webp)
 
 > 如图，注意，数字后面的点只能是英文的点，有序列表的序号是根据第一行列表的数字顺序来的，
 错序列表的序号本来是序号是乱的， 但是还是显示 2 3 5
@@ -91,6 +93,7 @@
 3. cdef
 ```
 效果图：
+
 ![嵌套列表.png](./image/嵌套列表.webp)
 
 > 列表可以嵌套，使用时在嵌套列表前按 tab 或 空格 来缩进,去控制列表的层数
@@ -131,13 +134,13 @@
 ![单行代码块](./image/单行代码块.webp)
 大量代码，需要多行使用，用```包裹起来
 ```
-    \```
+    ```
         daliangdaima,xuyaoduohangshiyong
         daliangdaima,xuyaoduohangshiyong
         daliangdaima,xuyaoduohangshiyong
         daliangdaima,xuyaoduohangshiyong
         daliangdaima,xuyaoduohangshiyong
-    \```
+    ```
 ```
 效果图：
 ![多行代码](./image/多行代码.webp)
@@ -243,7 +246,7 @@ _md_
 
 ### 十、表格
 
-```
+```md
 //例子一
 |123|234|345|
 |:-|:-:|-:|
