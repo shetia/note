@@ -23,27 +23,16 @@ body {
 .box .middle {
   flex: 1;
   background: yellowgreen;
-  overflow: scroll;
-  position: relative;
+  display: grid;
+  grid-template-columns: 150px auto 150px;
 }
 
 .box .middle .leftSide,
 .box .middle .rightSide {
-  width: 150px;
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
+  height: 100%;
   background: #ccc;
 }
 
-.box .middle .leftSide {
-  left: 0px;
-}
-
-.box .middle > .rightSide {
-  right: 0px;
-}
-
 .box .middle .content {
-  padding: 0px 150px;
+  background: yellow;
 }

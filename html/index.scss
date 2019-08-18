@@ -24,30 +24,37 @@ body {
   .middle {
     flex: 1;
     background: yellowgreen;
-    overflow: scroll;
-    position: relative;
+    // overflow: scroll;
+    // position: relative;
+    display: grid;
+    // grid-template-rows: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+    grid-template-columns: 150px auto 150px; // 横向
+    // grid-template-rows: 25% 100px auto; // 纵向
+    // grid-gap: 10px;  //块与块之间的距离
 
     .leftSide,
     .rightSide {
-      width: 150px;
-      position: absolute;
-      top: 0px;
-      bottom: 0px;
+      // width: 150px;
+      height: 100%;
+      // position: absolute;
+      // top: 0px;
+      // bottom: 0px;
 
       background: #ccc;
     }
 
-    .leftSide {
-      left: 0px;
-    }
+    // .leftSide {
+    //   left: 0px;
+    // }
 
-    >.rightSide {
-      right: 0px;
-    }
+    // >.rightSide {
+    //   right: 0px;
+    // }
 
 
     .content {
-      padding: 0px 150px;
+      background: yellow;
+      // padding: 0px 150px;
       // overflow: scroll;
     }
   }
