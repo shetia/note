@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div>hello world</div>
+</body>
+</html>
+<script>
+  (function(global){
+    function Library(selector){
+      return new Fn(selector)
+    }
+    function Fn(selector){
+      var elements = document.querySelectorAll(selector)
+      //console.log(this)  // Fn
+      for(var i = 0; i<elements.length;i++){
+        this[i] = elements[i]
+      }
+      this.length = elements.length
+    }
+    Fn.prototype.css = function(name,value){
+      for(var i = 0;i<this.length;i++){
+        var el = this[i]
+        el.style[name] = value
+      }
+    }
+    window._$ = window.Library = Library
+  })(window)
+
+  _$('div').css('color','red')
+</script>
