@@ -11,9 +11,9 @@
 
 ```js
 function getIps() {
-  const os = require('os'); //获得当前可用网络
-  let ifaces = os.networkInterfaces();
-  let isWin = os.type() === 'Windows_NT';
+  const os = require('os'); //获得当前可用网络  os 模块提供了一些基本的系统操作函数
+  let ifaces = os.networkInterfaces(); //获得网络接口列表。
+  let isWin = os.type() === 'Windows_NT';  //返回操作系统名
   let arr = [];
   for (let dev in ifaces) {
     ifaces[dev].forEach(function(details) {

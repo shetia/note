@@ -221,6 +221,21 @@
     obj2.text = e.target.value
   })
 
+/* 
+  实现一个forEach
 
+*/
+
+Array.prototype._forEach = function(fn){
+  let arr = this 
+  for(let i = 0;i<arr.length;i++){ 
+      fn(arr[i],i,arr)
+  }
+}
+
+let arr = [1,2,3,4]
+arr._forEach(item=>{
+  console.log(item) 
+})
   
 </script>
