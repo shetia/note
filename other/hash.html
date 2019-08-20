@@ -1,0 +1,71 @@
+<!--
+ * @Descripttion:
+ * @version:
+ * @Author: shetia
+ * @Date: 2019-08-20 20:26:54
+ * @LastEditors: somebody
+ * @LastEditTime: 2019-08-20 20:49:04
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="nav">
+    <a href="#page1">page1</a>
+    <a href="#page2">page2</a>
+    <a href="#page3">page3</a>
+  </div>
+  <div id="container"></div>
+</body>
+
+</html>
+
+<script>
+  let hash = location.hash;
+
+  // window.onhashchange = function(value, a) {
+
+  //   console.log(value, a);
+  // };
+  function Router() {
+    this.routes = {}
+    window.addEventListener('hashchange', this.reload.bind(this))
+  }
+
+
+  Router.prototype.index = function (callback) {
+    this.routes['index'] = callback
+  }
+  Router.prototype.register = function (hash, callback) {
+    this.routes[hash] = callback
+  }
+  Router.prototype.reload = function () {
+    let callback
+    let hash = location.hash.slice(1);
+    !hash ? callback = this.routes.index : callback = this.routes[hash]
+    callback()
+  }
+
+  let router = new Router()
+  let container = document.getElementById('container')
+  router.index(() => {
+    container.innerHTML = 'woshishouye'
+  })
+  router.register('page1', () => {
+    container.innerHTML = '我是page1'
+  })
+  router.register('page2', () => {
+    container.innerHTML = '我是page2'
+  })
+  router.register('page3', () => {
+    container.innerHTML = '我是page3'
+  })
+  router.reload()
+</script>
