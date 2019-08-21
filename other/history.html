@@ -1,0 +1,127 @@
+<!--
+ * @Descripttion:
+ * @version:
+ * @Author: shetia
+ * @Date: 2019-08-20 20:50:42
+ * @LastEditors: somebody
+ * @LastEditTime: 2019-08-20 21:33:00
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="div">
+    <a href="/page1">page1</a>
+    <a href="/page2">page2</a>
+    <a href="/page3">page3</a>
+  </div>
+  <div id="container"></div>
+  <!-- <a href="https://study.163.com">网易云课堂</a> -->
+</body>
+
+</html>
+<script>
+  class Router {
+    constructor() {
+      // 存储不同的path值对应的回调函数
+      this.routers = {}
+      this.listenPopstate()
+      this.listenLink()
+    }
+    // 监听postSTate，历史记录更改的时候，将触发postState事件
+    listenPopstate() {
+      window.addEventListener('popstate', (e) => {
+        let state = e.state || {}
+        let path = state.path || ''
+        this.handler(path)
+      })
+    }
+    listenLink() {
+      window.addEventListener('click', e => {
+        let ev = e.target
+        if (ev.tagName === 'A' && ev.getAttribute('href')) {
+          e.preventDefault()
+          // 更新url
+          console.dir(ev)
+          this.urlRefresh(ev.getAttribute('href'))
+        }
+      })
+    }
+    load() {
+      let path = location.pathname
+    }
+    register(path, cb) {
+      this.routers[path] = cb
+
+    }
+    index(cb) {
+      this.routers['/'] = cb
+    }
+    urlRefresh(path) {
+      history.pushState({
+        path
+      }, null, path)
+      this.handler(path)
+    }
+    handler(path) {
+      let cb;
+      cb = this.routers[path]
+      cb.call(this)
+    }
+
+  }
+
+  let router = new Router()
+
+
+  let container = document.getElementById('container')
+  router.register('/page1', () => {
+    container.innerHTML = '我是history page1'
+  })
+  router.register('/page2', () => {
+    container.innerHTML = '我是history page2'
+  })
+  router.register('/page3', () => {
+    container.innerHTML = '我是history page3'
+  })
+
+
+
+  router.load()
+
+
+
+
+
+
+
+  /* history.pushState()
+    history.replaceState()
+
+    hash模式，当hash变化的时候，可以通过hashchange进行监听
+
+    而history的改变，并不会触发任何事件，所以我们把这些情况进行一个拦截，变相的去监听history
+    的变化，
+    在单页的history中，url的变化，有几种方式可以引起
+    1。点击浏览器的前进和后退，会不会引起url的变化
+    2.点击a标签是不是会引起我们的url变化
+    3.js中，触发history
+    4.js中，触发
+   */
+
+
+
+  /*
+   创建一个路由对象，实现resgister方法 location.pathname的值对应的回调函数
+   处理首页
+   处理其他页
+
+   */
+</script>
