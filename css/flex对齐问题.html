@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      /* .container {
+        display: flex; 
+        flex-wrap: wrap;
+      }
+      .list {
+        width: 24%; 
+        height: 100px;
+        background-color: skyblue;
+        margin-top: 15px;
+      } */  
+      /* .list:not(:nth-child(4n)) {
+          margin-right: calc(4% / 3);
+      } */
+
+
+        /* 实现的关键就是占位的<i>元素宽度和margin大小设置得和.list列表元素一样即可，其他样式都不需要写。
+
+ */
+      /* 
+            .container {
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          margin-right: -10px;
+      }
+      .list {
+          width: 100px; height:100px;
+          background-color: skyblue;
+          margin: 15px 10px 0 0;
+      }
+      /* 和列表一样的宽度和margin值 */
+      /* .container > i {
+          width: 100px;
+          margin-right: 10px;
+      } */ 
+
+
+
+
+        /*Grid布局天然有gap间隙，且天然格子对齐排布，因此，实现最后一行左对齐可以认为是天生的效果。  */
+        .container {
+          display: grid;
+          justify-content: space-between;
+          grid-template-columns: repeat(auto-fill, 100px);
+          grid-gap: 10px;
+        }
+        .list {
+          width: 100px; height:100px;
+          background-color: skyblue;
+          margin-top: 5px;
+        }
+    </style>
+  </head>
+  <body>
+    <!-- #flex对齐问题 -->
+    <div class="container">
+      <div class="list"></div>
+      <div class="list"></div>
+      <div class="list"></div>
+      <div class="list"></div>
+      <div class="list"></div>
+      <div class="list"></div>
+      <div class="list"></div>
+      <!-- <i></i><i></i><i></i><i></i><i></i> -->
+    </div>
+  </body>
+</html>
