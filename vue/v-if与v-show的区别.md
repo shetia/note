@@ -2,14 +2,14 @@
 
 ```html
 <div id="root"> 
-    <div v-if="true">
-      我是指令v-if
-      <span v-if='false'>看不见我</span>
-    </div>
-    <div v-if="false">我是指令v-if隐藏</div>
-    <div v-show="true">我是指令v-show</div>
-    <div v-show="false">我是指令v-show</div>
+  <div v-if="true">
+    我是指令v-if
+    <span v-if='false'>看不见我</span>
   </div>
+  <div v-if="false">我是指令v-if隐藏</div>
+  <div v-show="true">我是指令v-show</div>
+  <div v-show="false">我是指令v-show</div>
+</div>
 ```
 ```js
   let el = document.getElementById('root');
