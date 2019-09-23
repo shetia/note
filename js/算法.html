@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+<script>
+/* 
+  冒泡排序
+  从前往后相邻的两个数之间进行比较，大的排在后面，排完一轮后，最大的数排在后面，
+  然后对未排好的继续冒泡，每一次能找到未排序中最大的数，循环这个过程即可。
+*/
+
+function bubbleSort(arr){
+  let list = [...arr]
+  for(var i = 0;i < list.length-1; i++){
+    for(var j = 0;j < list.length - 1 - i; j++ ){
+      if(list[j] > list[j+1]){
+        [list[j], list[j+1]] = [list[j+1], list[j]]
+      }
+    }
+  }
+  return list
+}
+ /* 
+  选择排序
+  以第一个数为参照，将右边的数与其比较，如果比它小，则交换，排完一趟后第一个数是最小的；
+  第二趟以第二个数为参照，将右边的数与其比较，如果比它小，则交换，排完第二趟后第二个数是最第二小的；以此类推
+*/
+
+function selectSort(arr){
+  for(var i= 0 ;i<arr.length; i++){
+    for(var j = i+1; j<arr.length; j++){
+      if(arr[i] > arr[j] ){
+        [arr[i], arr[j]] = [arr[j], arr[i]]
+      }
+    }
+  }
+  return arr
+}
+
+/* 
+  快速排序
+*/
+
+function quickSort(arr){
+  //如果数组<=1,则直接返回 
+  if(arr.length <= 1){return arr;} 
+  //找基准，并把基准从原数组删除
+  var middleIndex =Math.floor(arr.length/2)
+  var middle = arr.splice(middleIndex,1)[0] 
+  var left = []
+  var right = []
+  for(var i= 0; i<arr.length; i++){
+    if(arr[i]<=middle){
+      left.push(arr[i])
+    }else{
+      right.push(arr[i])
+    }
+  }  
+  return [...quickSort(left),middle,...quickSort(right)]
+}
+
+
+/* 
+  插入排序
+  把第一个数看成序列的子序列，将第二个数与其比较，如果比它小，则排在前面，排完一轮后，有序的子序列有两个数；
+  将有序的子序列中的每一个数与剩余序列的第一个数（b）比较，如果子序列中的某一个数比b大，则将b插入到其前面，
+  循环下去，使得有序的子序列越来越长，直到排序完成
+
+*/
+function insert(arr){
+	for(let i = 1;i < arr.length; i++){
+    let j = i-1;
+    let temp = arr[i]    
+    while(j >= 0 && arr[j] > temp){ 
+        arr[j+1] = arr[j]
+        j--
+    }
+    arr[j+1]=temp 
+  }
+    return arr
+}
+ 
+
+/* 
+二分查找
+*/
+
+function binarySearch(arr, key){
+  let list = arr
+  let low = 0
+  let hight = list.length-1
+  while(low<=hight){
+    let middleIndex = Math.floor((low+hight) / 2)
+    let middle = list[middleIndex]
+    if(key === middle){
+      return middleIndex
+    }else if( key > middle){
+      low = middleIndex + 1
+    }else if(key < middle){
+      hight = middleIndex -1 
+    }else {
+      return -1
+    }
+  }
+}
+
+/* function binary_search(arr,low,high,key){
+	var mid=parseInt((high+low)/2);
+	if(key===arr[mid]){
+		console.log(mid);
+		return mid;
+	}else if(key>arr[mid]){
+		low=mid+1;
+		binary_search(arr,low,high,key);
+	}else if(key<arr[mid]){
+		high=mid-1;
+		binary_search(arr,low,high,key);
+	}else{
+		return -1;
+	}
+} */
+
+
+/* 堆排序的过程如下：
+ 
+堆排序有大根堆和小根堆，大根堆的每个父节点都不小于其左右两个子节点
+ 
+大根堆：从倒数第二层开始，找出具有叶子节点的节点，将其与自己的子节点比较，将其与较大的叶子节点进行交换，arr[i]的两个子节点
+为arr[2*i+1]和arr[2*i+2]，从下往上直到i=0，此时arr[0]的值是最大的，将其与数组的最后一个位置进行替换，替换后可能无法构成
+大根堆，需要照同样的方法进行，直到最后只有根节点，即最小的数。 */
+ 
+function swap(arr,i,j){
+	let temp=arr[i];
+	arr[i]=arr[j];
+	arr[j]=temp;
+}
+function shiftDown(arr,i,length){
+	let temp=arr[i];
+	for(let j=2*i+1;j<length;j=2*j+1){
+		if(j+1<length&&arr[j]<arr[j+1]){
+			j++;
+		}
+		if(temp<arr[j]){
+			swap(arr,i,j);
+			i=j;
+		}else{
+			break;
+		}
+	}
+};
+function heapSort(arr){
+	for(let i=Math.floor(arr.length/2-1);i>=0;i--){
+		shiftDown(arr,i,arr.length);
+	}
+	for(let i=arr.length-1;i>0;i--){
+		swap(arr,0,i);
+		shiftDown(arr,0,i);
+	}
+};
+// var arr=[12,3,45,43,3,54,34,6,7,2];
+// heapSort(arr);
+// console.log(arr);
+
+
+//归并的思想是分割思想
+function merge(left,right){
+	console.log(left,right);
+	var res=[];
+	while(left.length>0&&right.length>0){ //其中一项为0，直接排序即可，毕竟已经是排好序的了
+		if(left[0]<right[0]){
+			res.push(left.shift());
+		}else{
+			res.push(right.shift())
+		}
+	}
+	return res.concat(left,right);
+};
+function merge_sort(items){
+	if(items.length===1){
+		return items;
+	}
+	var mid=Math.floor(items.length/2);
+	var left=items.slice(0,mid);
+	var right=items.slice(mid);
+	return merge(merge_sort(left),merge_sort(right)); //递归到得出一项一项的，再进行merge
+};
+merge_sort([1,3,53,23,5,26,4])
+
+
+/* 
+希尔排序
+
+确定比较间隔
+*/
+
+function shell_sort(arr){
+	let length=arr.length;
+	let gap=1;
+	while(gap<length/3){
+		gap=gap*3+1;
+	}
+	while(gap>=1){
+		for(var i=gap;i<length;i++){
+			for(var j=i;j>=gap&&arr[j]<arr[j-gap];j-=gap){
+				swap(arr,j,j-gap);
+			}
+		}
+		gap=(gap-1)/3;
+	}
+	console.log(arr);
+}
+function swap(arr,i,j){
+	let temp=arr[i];
+	arr[i]=arr[j];
+	arr[j]=temp;
+};
+shell_sort([12,3,43,54,5,18])
+</script>
