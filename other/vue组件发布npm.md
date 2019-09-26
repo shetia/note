@@ -9,8 +9,10 @@
 ```js
 vue create my-project
 ```
+长这样子的：
 
-###调整目录
+![](https://user-gold-cdn.xitu.io/2019/9/26/16d6b543812fabb0?w=1024&h=768&f=png&s=94536)
+### 调整目录
 
 安装项目之后我们来修改一下目录结构
 ```
@@ -25,14 +27,18 @@ vue create my-project
 修改之后，运行项目我们会发现报错了，那是因为目录结构改了，还有就是packges这个文件夹是我们新增的，webpack无法获取编译，我们需要在webpack里加上。
 
 我们会新建一个vue.config.js的配置文件，这个vue-cli3提供的一个可选配置文件，我们可以在里面配置整个项目所有的webpack配置。
+我们可以直接去 [vue-cli3的配置](https://cli.vuejs.org/zh/config/#pages) 复制过来,而 [chainWebpack](https://cli.vuejs.org/zh/guide/webpack.html#%E9%93%BE%E5%BC%8F%E6%93%8D%E4%BD%9C-%E9%AB%98%E7%BA%A7) 会给我们提供链式操作
 ```js
 // vue-config.js
 module.exports = {
   // 修改 src 目录 为 examples 目录
   pages: {
     index: {
+      // page 的入口
       entry: 'examples/main.js',   // 把src 修改为examples
+      // 模板来源
       template: 'public/index.html',
+      // 在 dist/index.html 的输出
       filename: 'index.html'
     }
   },
@@ -54,7 +60,7 @@ module.exports = {
 }
 ```
 以上就是基本的配置，接下来我们就开始创建一个组件
-###编写组件
+### 编写组件
 这里我就以一个按钮组件来做尝试。
 在之前我们新建的 packages 目录中新建 comColorButton 文件夹和index.js文件，然后再在comColorButton文件夹里，创建src文件夹和index.js文件，目录结构如下：
 ```
@@ -215,16 +221,18 @@ Vue.use(ComColorButton)
 <template>
   <div class="hello">
     <com-color-button type="success" :disabled="false">按钮</com-color-button> 
+    <com-color-button :disabled="true">按钮</com-color-button>
   </div>
 </template>
 ```
+我们可以看到效果：
 
-
-###发布npm 方便直接在项目中引用
+![](https://user-gold-cdn.xitu.io/2019/9/26/16d6b4b00ee600ff?w=818&h=632&f=png&s=22950)
+### 发布npm 方便直接在项目中引用
 
 到此为止我们一个完整的组件库已经开发完成了，接下来就是发布到 npm 以供后期使用
 
-####1、package.json 中新增一条编译为库的命令
+#### 1、package.json 中新增一条编译为库的命令
 在库模式中，Vue是外置的，这意味着即使在代码中引入了 Vue，打包后的文件也是不包含Vue的。
 
 以下我们在 scripts 中新增一条命令 npm run lib
@@ -243,7 +251,13 @@ Vue.use(ComColorButton)
 ```
 npm run lib
 ```
-####2、配置 package.json 文件中发布到 npm 的字段
+
+![](https://user-gold-cdn.xitu.io/2019/9/26/16d6b5af7920d49a?w=661&h=454&f=png&s=55267)
+之后我们就可以看到会生成一个文件夹lib包含很多文件，长这样子的：
+
+![](https://user-gold-cdn.xitu.io/2019/9/26/16d6b4d68c9e8584?w=1080&h=953&f=png&s=179381)
+
+#### 2、配置 package.json 文件中发布到 npm 的字段
 + name: 包名，该名字是唯一的。可在 npm 官网搜索名字，如果存在则需换个名字。
 + version: 版本号，每次发布至 npm 需要修改版本号，不能和历史版本号相同。
 + description: 描述。
@@ -263,7 +277,7 @@ npm run lib
 
 ```
 
-####3、添加 .npmignore 文件，设置忽略发布文件
+#### 3、添加 .npmignore 文件，设置忽略发布文件
 我们发布到 npm 中，只有编译后的 lib 目录、package.json、README.md才是需要被发布的。所以我们需要设置忽略目录和文件。
 和 .gitignore 的语法一样，具体需要提交什么文件，看各自的实际情况。
 ```
@@ -278,7 +292,7 @@ babel.config.js
 *.map
 
 ```
-####4、登录到 npm
+#### 4、登录到 npm
 首先需要到 npm 上注册一个账号,注意验证邮箱，不然之后会发布不了。
 如果配置了淘宝镜像，先设置回npm镜像
 ```
@@ -289,18 +303,22 @@ npm config set registry http://registry.npmjs.org
 npm login
 ```
 
-####5、发布到 npm
+#### 5、发布到 npm
 
 执行发布命令，发布组件到 npm
 ```
 npm publish
 ```
+
+![](https://user-gold-cdn.xitu.io/2019/9/26/16d6b5bc7ab28000?w=661&h=514&f=png&s=92420)
 这里如果还没有验证邮箱的话话报个，需要验证邮箱的错误。去npm上验证邮箱即可，它会在页面顶部弹出个需要验证邮箱的提示。
 
-####6、发布成功
+#### 6、发布成功
 发布成功后稍等几分钟，可查看自己npm账号的packages，也可在 npm 官网搜索。 
 
-####7、使用新发布的组件库
+去npm查看，我们可以packages下看到发布成功了，如下图：
+![](https://user-gold-cdn.xitu.io/2019/9/26/16d6b4f823ed90c6?w=1906&h=942&f=png&s=85791)
+#### 7、使用新发布的组件库
 安装
 ```
 cnpm install com-color-button -S
@@ -308,13 +326,16 @@ cnpm install com-color-button -S
 
  引入
 ```
+<!--main.js-->
 import ComColorButton from 'com-color-button'
 import 'com-color-button/lib/comColorButton.css'
 Vue.use(ComColorButton)
 ```
 
-使用
+组件中使用
 ```
+...
 <com-color-button type="success">按钮</com-color-button>
+...
 ```
 到此就全部结束了，这都是亲自实践过的，可用。
