@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body></body>
+</html>
+<script>
+  var oddCells = function(n, m, indices) {
+    let nlist = Array.apply(null, Array(m)).map(function(item) {
+      return 0;
+    });
+    let nm = Array.apply(null, Array(n)).map(function(item) {
+      return nlist;
+    });
+
+    indices.forEach((item, index) => {
+      let ri = item[0]; // 行
+      let ci = item[1]; // 列
+      nm[ri] = nm[ri].map(i => {
+        return ++i;
+      });
+      nm.forEach(i => {
+        ++i[ci];
+      });
+    });
+    console.log(JSON.stringify(nm));
+    let num = 0;
+    nm.forEach(item => {
+      let list = item.filter(i => {
+        return i % 2 === 1;
+      });
+      console.log(list);
+      console.log(list.length);
+      num += list.length;
+    });
+    return num;
+  };
+
+  let n = 28,
+    m = 38,
+    indices = [
+      [17, 16],
+      [26, 31],
+      [19, 12],
+      [22, 24],
+      [17, 28],
+      [23, 21],
+      [27, 32],
+      [23, 27],
+      [23, 33],
+      [18, 7],
+      [4, 20],
+      [0, 31],
+      [25, 33],
+      [5, 22]
+    ];
+
+  console.log(oddCells(n, m, indices));
+</script>
