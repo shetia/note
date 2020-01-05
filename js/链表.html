@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+<script>
+  /* 链表 */
+  function LinkedList(){
+    let Node = function(element){
+      this.element = element
+      this.next = null
+    }
+    let length = 0
+    let head = null
+
+    //向列表尾部添加一个新的项。
+    this.append = function(element){
+      let node = new Node(element)
+      let current
+      if(head === null){  // 列表中第一个节点
+        head = node
+      }else{
+        current = head
+        // 循环列表，直到找到最后一项
+        while(current.next){
+          current = current.next
+        }
+
+        // 找到最后一项，将其next赋为node建立连接
+        current.next = node
+      }
+      length++  // 更新列表长度
+    } 
+    this.insert = function (position, element){
+      if(position>=0 && position <= length){
+        let node = new Node(element)
+        let current = head
+        let previous 
+        let index = 0
+        if(position === 0){
+          node.next = current
+          head = node
+        } else {
+          while(index++ < position){
+            previous = current
+            current = current.next
+          }
+          node.next = current
+          previous.next = node
+        }
+        length++
+        return true
+      }else{
+        return false
+      }  
+    }  //向列表的特定位置插入一个新的项
+    this.removeAt = function(position){
+      // 检查越界值
+      if(position > -1 && position < length){
+        let current = head
+        let previeous
+        let index = 0
+        // 移除第一项
+        if(position === 0){
+          head = current.next
+        } else {
+          while (index++ < position){
+            previeous = current
+            current = current.next
+          }
+          // 将preiveous与current的下一项连接起来，跳过current，从而移除它
+          previeous.next = current.next
+        }
+        length --
+        return current.element
+      }else {
+        return null
+      }
+
+    } // 从列表的特定位置移除一项
+    this.remove = function(element){}    // 从列表中移除一项
+    this.indexOf = function(element){
+      let current = head
+      let index = -1
+
+      while(current){
+        if(element === current.element){
+          return index
+        }
+        index++
+        current  = current.next
+      }
+      return -1
+    }    // 返回元素在列表中的索引。如果列表中没有该元素则返回-1
+    this.isEmpty = function(){
+      return length === 0; 
+    }         // 如果链表中不包含任何元素，返回true，如果链表长度大于0则返回false
+    this.size = function(){
+      return length
+    }          // 返回链表包含的元素个数。与数组的length属性类似
+    this.getHead = function(){
+      return head;
+    }         // 
+    // 由于列表项使用了Node类，就需要重写继承自JavaScript对象默认的toString方法，让其只输出元素的值
+    this.toString = function(){
+      let current = head, //{1}
+      string = ''; //{2}
+      while (current) { //{3}
+        string +=current.element +(current.next ? 'n' : '');//{4}
+        current = current.next; //{5}
+      }
+      return string; 
+    }          
+    this.print  = function(){}          // 
+  }
+  let list = new LinkedList();
+  list.append(15);
+  list.append(14);
+  list.append(13); 
+  list.append(12); 
+  list.append(11); 
+  list.append(10); 
+  console.log(list.toString())  //15n14n13n12n11n10
+  list.removeAt(2)
+  console.log(list.toString())  //15n14n12n11n10
+  list.insert(2,99)
+  console.log(list.toString()) //15n14n99n12n11n10
+  console.log(list.indexOf(2)) // -1
+  console.log(list.size())     // 6
+  console.log(list.getHead())  //Node {element: 15, next: Node}
+  console.log(list.isEmpty())  // false
+</script>

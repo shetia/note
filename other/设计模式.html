@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta charset="utf-8">
+<title></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+ 
+<style> 
+</style>
+</head>
+<body> 
+
+<script type="text/javascript">
+/* 
+  有个前端交流群，其中每个前端都具有发布任务(publish)，订阅任务(subscribe)的功能
+  他们都有一个订阅列表来记录谁订阅了自己
+*/
+
+// 定义一个前端工程师类，包括姓名，级别，订阅列表
+/* 
+function FrontEndEngineer(name,level){
+  this.name = name
+  this.level = level
+  this.list = [] 
+}
+
+// 发布任务的功能
+let levelFilter =function (level) {
+  return {
+    0:'实习',
+    1:'初级',
+    2:'中级',
+    3:'高级',
+    4:'资深',
+  }[level]
+}
+FrontEndEngineer.prototype.task = function(obj){
+  console.log('\n')
+  console.log('------------------------%c发布任务%c----------------------------','color:green;font-weight:600;','color:#333;')
+  console.log('\n')
+  console.log(`%c ${levelFilter(this.level)}工程师${this.name}提出个问题:${obj.name},红包${obj.money}`,'color:red;font-weight:600;') 
+  console.log('\n')
+  console.log('------------------------%c订阅列表%c----------------------------','color:red;font-weight:600;','color:#333;')
+  console.log('\n')
+  this.list.forEach(item=>{ 
+    item(obj)
+  })
+  console.log('\n')
+  console.log('------------------------%c订阅列表%c----------------------------','color:red;font-weight:600;','color:#333;')
+}
+
+// 订阅功能
+
+FrontEndEngineer.prototype.take = function(who,fn){
+  console.log(`%c ${levelFilter(this.level)}工程师%c${this.name}%c关注了%c${levelFilter(who.level)}工程师%c${who.name}`,'color:#55cb93','color:red;font-weight:600;','color:#333','color:#55cb93','color:red;font-weight:600;');
+  who.list.push(fn.bind(this))
+}
+
+
+
+
+let Lee = new FrontEndEngineer('李狗蛋','2')
+let You = new FrontEndEngineer('鱿鱼丝','3')
+let Zch = new FrontEndEngineer('张翠花','1')
+let Shetia = new FrontEndEngineer('shetia','4')
+let Liza = new FrontEndEngineer('liza','0')
+
+
+
+
+// 众人先订阅了她订阅
+
+Shetia.take(Liza,function(obj){
+  console.log(`%c${levelFilter(this.level)}工程师%c${this.name}%c表示：非常乐意帮忙，而且免费.`,'color:#55cb93','color:red;font-weight:600;','color:#333')
+})
+Lee.take(Liza,function(obj){
+  console.log(`%c${levelFilter(this.level)}工程师%c${this.name}%c表示：呵呵呵，有点意思.`,'color:#55cb93','color:red;font-weight:600;','color:#333')
+})
+Zch.take(Liza,function(obj){
+  console.log(`%c${levelFilter(this.level)}工程师%c${this.name}%c表示：${obj.difficulty>=this.level?'这个问题太难了，人家不会':'没问题，姐姐教你，什么钱不钱的'}.`,'color:#55cb93','color:red;font-weight:600;','color:#333')
+})
+You.take(Liza,function(obj){
+  console.log(`%c${levelFilter(this.level)}工程师%c${this.name}%c表示：举手之劳.`,'color:#55cb93','color:red;font-weight:600;','color:#333')
+})
+Lee.take(Shetia,function(obj){
+  console.log(`%c${levelFilter(this.level)}工程师%c${this.name}%c表示：${obj.money > 100?'卧槽，土豪':'呵呵呵，有点意思'}.`,'color:#55cb93','color:red;font-weight:600;','color:#333')
+})
+Zch.take(Shetia,function(obj){
+  console.log(`%c${levelFilter(this.level)}工程师%c${this.name}%c表示：${obj.difficulty>=this.level?'这个问题太难了，人家不会':'没问题，姐姐帮你，什么钱不钱的'}.`,'color:#55cb93','color:red;font-weight:600;','color:#333')
+})
+You.take(Shetia,function(obj){
+  console.log(`%c${levelFilter(this.level)}工程师%c${this.name}%c表示：我也想知道.`,'color:#55cb93','color:red;font-weight:600;','color:#333')
+})
+
+// 有个人发布了任务
+
+Liza.task({name:'什么是观察者模式？',money:10,difficulty:2}) 
+
+
+Shetia.task({name:'有谁认识美女么？',money:10000000,difficulty:0})  */
+ /* //有一家猎人工会，其中每个猎人都具有发布任务(publish)，订阅任务(subscribe)的功能
+  //他们都有一个订阅列表来记录谁订阅了自己
+ 
+  //定义一个猎人类，包括姓名，级别，订阅列表
+  function Hunter(name, level){
+    this.name = name;
+    this.level = level;
+    this.list = [];
+  }
+ 
+  //发布任务的功能
+  Hunter.prototype.publish= function (parameters){
+      var money = parameters.money;
+      console.log(this.level + '猎人' + this.name + '寻求帮助')
+      this.list.forEach(function (item, index){
+              item(money)
+          })
+    };
+ 
+  //订阅任务(subscribe)的功能
+  Hunter.prototype.subscribe = function (targrt, fn){
+    console.log(this.level + '猎人' + this.name + '订阅了' + targrt.name)
+      targrt.list.push(fn)
+    }
+ 
+  //猎人工会的几个猎人
+ 
+  let hunterMing = new Hunter('小明', '黄金')
+  let hunterJin = new Hunter('小金', '白银')
+  let hunterZhang = new Hunter('小张', '黄金')
+  let hunterPeter = new Hunter('Peter', '青铜')
+ 
+  //Peter等级较低，可能需要帮助，所以小明，小金，小张都订阅了Peter
+  hunterMing.subscribe(hunterPeter, function (money){
+        console.log('小明表示：' + ((money > 200) ? '给予帮助' : '暂时很忙，不能'+ '给予帮助'))
+      })
+  hunterJin.subscribe(hunterPeter, function (){
+        console.log('小金表示：给予帮助')
+      })
+ 
+  hunterZhang.subscribe(hunterPeter, function (){
+        console.log('小张表示：给予帮助')
+      })
+ 
+  //Peter遇到困难，赏金198寻求帮助
+  hunterPeter.publish({money: 198})
+  //猎人们(观察者)关联他们感兴趣的猎人(目标对象)，如Peter，当Peter有困难时，会自动通知给他们（观察者）
+ */
+
+    //定义一个猎人类，包括姓名，级别，订阅列表
+    function Hunter(name, level){
+        this.name = name;
+        this.level = level;
+        this.list = [];
+      }
+
+   //主要功能包括任务发布大厅(topics)，以及订阅任务(subscribe)，发布任务(publish)
+   let HunterUnion = {type: 'hunt',
+        topics: Object.create(null),
+       subscribe: function (topic, fn){
+            if (!this.topics[topic]){
+              this.topics[topic] = [];
+            }
+           this.topics[topic].push(fn);
+            },
+        publish: function (topic, money){
+            if (!this.topics[topic])
+              return;
+            for (let fn of this.topics[topic]){
+              fn(money)
+            }
+          }
+      }
+ 
+  //定义一个猎人类 包括姓名，级别
+  function Hunter(name, level){
+    this.name = name;
+    this.level = level;
+  }
+ 
+  //猎人可在猎人工会发布订阅任务
+  Hunter.prototype.subscribe = function (topic,fn){
+      console.log(this.level + '猎人' + this.name + '订阅了狩猎' +topic + '的任务')
+      HunterUnion.subscribe(topic, fn)
+    }
+ 
+  Hunter.prototype.publish = function (topic, money){
+      console.log(this.level+ '猎人' + this.name + '发布了狩猎' + topic + '的任务')
+      HunterUnion.publish(topic,money)
+  }
+ 
+  //猎人工会走来了几个猎人
+   let hunterMing = new Hunter('小明', '黄金')
+   let hunterJin = new Hunter('小金', '白银')
+   let hunterZhang = new Hunter('小张', '黄金')
+  let hunterPeter = new Hunter('Peter', '青铜')
+ 
+ 
+  //小明，小金，小张分别订阅了狩猎tiger的任务
+  hunterMing.subscribe('tiger', function (money){
+        console.log('小明表示：' + (money > 200 ? '' : '不') + '接取任务')
+      })
+  hunterJin.subscribe('tiger', function (money){
+    console.log('小金表示：接取任务')
+  })
+  hunterZhang.subscribe('tiger', function (money){
+    console.log('小张表示：接取任务')
+  })
+ 
+  //Peter订阅了狩猎sheep的任务
+  hunterPeter.subscribe('sheep', function (money){
+        console.log('Peter表示：接取任务')
+      })
+  
+  //Peter发布了狩猎tiger的任务
+  hunterPeter.publish('tiger', 298)
+  hunterZhang.publish('sheep', 298)
+  //猎人们发布(发布者)或订阅(观察者/订阅者)任务都是通过猎人工会(调度中心)关联起来的，他们没有直接的交流。
+
+</script>
+</body>
+</html>
