@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+<script>
+function side(arr){
+  arr[0] = arr[2]
+}
+function a(a,b,c = 3){
+  console.log(a,b,c)
+  c = 10
+  console.log(arguments, 'arguments')
+  side(arguments)
+  return a + b + c
+}
+ function b(a,b,c) {
+  console.log(a,b,c)
+  c = 10
+  console.log(arguments, 'arguments')
+  side(arguments)
+  return a + b + c
+}
+
+
+/* 
+因为a函数加了默认值，就按ES的方式解析，ES6是有块级作用域的，所以c的值是不会改变的
+ */
+console.log(a(1,1,1))  // 12
+console.log(b(1,1,1))  // 21
+ 
+
+</script>
