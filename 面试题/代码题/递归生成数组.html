@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+<script>
+/* 
+  使用递归, 限制15行代码以内实现, 十分钟
+
+  1. 创建一个长度为5的空数组数组arr
+  2. 生成一个(2-32) 之间的随机整数rand
+  3. 把随机数rand插入到arr内, 
+      如果数组arr内已存在rand相同的数字,
+      则重新生成随机数rand并插入到arr内(需要使用递归实现,不能使用循环)
+  4. 最终输出一个长度为5,且内容不重复的数组arr
+ */
+
+ let arr = Array(5)
+ let index = 0
+ ;(function () {
+    if(index >= arr.length) return                            // 递归终止条件
+    let rand = Math.floor(Math.random() * 30) + 2             // 生成随机数 (Math.random() 生成 0-1 的随机数) (Math.floor 向下取整) 
+    if(!arr.includes(rand)) (arr[index] = rand),(index ++)    // 判断arr内是否存在rand相同的数字 , 这里压缩了一下行数
+    arguments.callee()                                        // 递归调用, 为节省代码行数,使用 自调用函数, 所以得用arguments.callee 调用自身
+ })() 
+ console.log(arr)
+
+</script>
