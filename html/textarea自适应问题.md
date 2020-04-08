@@ -4,7 +4,25 @@
 在div行内加上这个属性就可以编辑    ios 要加上-webkit-user-select: text;样式不然无法使用
 contenteditable = “true”
 ```html
-<div  contenteditable="true"></div>
+<head>  
+  <title>document.selection 的 createRange</title>  
+  <style>
+    .input{
+      width:200px;
+      min-height:24px;
+      font-size:14px;
+      padding:5px 8px;
+      border:1px solid #ddd;
+    }
+    .input:empty::before {
+      content: attr(placeholder);
+    }
+  </style>
+</head>  
+<body>   
+    <div class='input' contenteditable placeholder='请输入文字'></div>
+</body>  
+</html>
 ```
 
 方法二
