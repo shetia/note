@@ -56,15 +56,13 @@ var addTwoNumbers = function(l1, l2) {
   for(let i = 0; i < len2; i++){
     arr2.push(l2.getElementAt(i).element)
   }
-  console.log(arr1, '123')
-  console.log(arr2, '123')
   let carry = 0  // 记录相加后的进位 比如6 + 7 = 13 则 1是进位
   // arr1 和 arr2 从后面对应每个相加
   while(arr1.length > 0 || arr2.length > 0 || carry > 0){
     let last1 = arr1.pop()
     let last2 = arr2.pop()
     let {first, last} = sum(last1, last2, carry)
-    arr3.push(last)
+    arr3.unshift(last)
     carry = first
   }
   return createList(arr3)
@@ -102,8 +100,10 @@ function createList(arr){
 
 let l1 = createList(arr1)
 let l2 = createList(arr2)
-console.log(l1)
-console.log(l2.toString())
+// console.log(l1)
+// console.log(l2.toString())
 
 console.log(addTwoNumbers(l1, l2))
+
+
 </script>
