@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <title>Document</title>
+</head>
+<body>
+  <p>
+    事件的默认行为与事件的来源和事件处理函数相关：
+		1.如果默认事件没有取消，就复制到选区（如果有选中内容）到剪切板；
+		2.如果取消了默认事件，但是调用了setData()方法：就复制clipboardData的内容到到剪切板；
+		3.如果取消了默认行为，而且没有调用setData()方法，就没有任何行为
+  </p>
+  <p>
+    监听window.oncopy事件
+    window.getSelection().toString()获取文本信息
+    ( event或者window[IE浏览器] ).clipboardData.setData(type,content)重新设置被复制的内容。
+    event.preventDefault()阻止默认行为，否则无法重置被选中的内容。
+  </p>
+
+  <textarea name="" id="" cols="90" rows="10"></textarea>
+</body>
+</html>
+<script>
+window.addEventListener('copy', (e) => {
+  console.log(e)
+  console.log(window.getSelection(0).toString())
+  var selecttion = window.getSelection().toString();
+  if(e.clipboardData){
+        e.clipboardData.setData('text/plain', selecttion + '这是我的地盘：' + window.location.href)
+    }else if(window.clipboardData){
+        //ie浏览器
+        window.clipboardData.setData('text/plain', selecttion + '这是这是我的地盘：' + window.location.href)
+    }
+    //阻止默认行为，否则无法重置被选中的内容。
+    e.preventDefault();
+})
+</script>
