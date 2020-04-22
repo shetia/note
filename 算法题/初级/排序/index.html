@@ -3,8 +3,8 @@
  * @version:
  * @Author: shetia
  * @Date: 2020-04-21 22:16:22
- * @LastEditors: somebody
- * @LastEditTime: 2020-04-21 22:51:15
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-04-22 17:01:14
  -->
 <!DOCTYPE html>
 <html lang="en">
@@ -20,11 +20,16 @@
 </html>
 <script type="module">
 import CArray from './CArray.js'
-let numElements = 10
+let numElements = 0
 let myNums = new CArray(numElements)
-myNums.setData()
+
+let arr = [3,5,1,6,4,7,2]
+for(let i = 0; i < arr.length; i++){
+  myNums.insert(arr[i])
+}
 console.log(myNums.toString())
-myNums.insertionSort()
+
+myNums.quickSort()
 console.log(myNums.toString())
 
 </script>
