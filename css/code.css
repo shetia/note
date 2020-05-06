@@ -11,7 +11,12 @@ pre{
   color: #fff;
   border: 2px dashed #00b9d1;
   /* border-radius: 8px; */
+  margin: 0 auto;
   font-size: 14px;
+	line-height: 20px; /* 行距 */
+	width: 800px;
+	overflow: auto; /* 超出宽度出现滑动条 */
+	overflow-Y:hidden; /* 作用是隐藏IE的右侧滑动条 */
 }
 code{
   padding: 0;
