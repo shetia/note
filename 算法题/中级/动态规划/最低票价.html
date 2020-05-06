@@ -63,9 +63,41 @@
  * @param {number[]} costs
  * @return {number}
  */
- var mincostTickets = function(days, costs) {
 
+var mincostTickets = function(days, costs) {
+  let arr = Array(366)
+  let $1 = costs[0], $7 = costs[1], $15 = costs[2]
+  return dp(1)
+  function dp(i){
+    if(i > 365) return 0
+    if(arr[i]) return arr[i]
+    if(days.includes(i)){
+      arr[i] = Math.min(dp(i + 1) + $1, dp(i + 7) + $7, dp(i + 30) + $15)
+    } else {
+      arr[i] = dp(i + 1)
+    }
+    return arr[i]
+  }
 };
+
+var mincostTickets = function (days, costs){
+  let arr = Array(days.length)
+  let list = [1, 7, 30]
+  return dp(0)
+  function dp(i){
+    if(i >= days.length) return 0
+    if(arr[i]) return arr[i]
+    arr[i] = Infinity
+    let j = i
+    for(let k = 0; k < 3; k++){
+      while(j < days.length && days[j] < days[i] + list[k]){
+        j++
+      }
+      arr[i] = Math.min(arr[i], dp(j) + costs[k])
+    }
+    return arr[i]
+  }
+}
 let days = [1,4,6,7,8,20], costs = [2,7,15]
 console.log(mincostTickets(days, costs))
 </script>
