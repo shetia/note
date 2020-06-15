@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<script>
+  /* 
+    继承: 一个类获取另一个或多个类的属性或方法
+    继承可以使得子类具有父类的各种方法和属性
+    继承原理: 复制父类的方法或属性来重写子类的原型对象
+  */
+
+  /* 一. 原型链继承 
+    优点: 简单易操作
+    缺点: 1. 父类使用this声明的属性所有实例共享, 原因是实例化是父类一次性赋值到子类实例的原型上, 它会将父类通过this声明的属性也赋值到这个子类原型上
+    例如: 在父类中一个数组值, 在子类的多个实例中, 无论哪一个实例去修改这个数组的值, 都会影响到其他子类实例.
+          2. 创建子类实例时, 无法向父类构造函数传参, 不够灵活
+ */
+  /*   function Father (name) {
+    this.text = '1'
+    this.obj = {a: {b: 2}}
+    this.arr = [1,2,3,4]
+    this.name = name
+    this.fn = function () {
+      return 123
+    }
+  }
+  Father.prototype.someFn = function () {
+    console.log(1)
+  }
+  Father.prototype.someValue = '2'
+  function Son(){
+    this.text1 = 'sontext1'
+  }
+  // 函数原型指向构造函数的实例
+  Son.prototype = new Father()
+  let son1 = new Son('son1')
+  let son2 = new Son('son2')
+  son2.arr[1] = 99
+  son1.obj.a = 12
+  console.log(son1.arr) // [1, 99, 3, 4]
+  console.log(son2.arr) // [1, 99, 3, 4]
+  console.log(son1.obj) // {a: 12}
+  console.log(son2.obj) // {a: 12}
+  console.log(son1.name) // undefined
+  console.log(son1.fn === son2.fn) // true */
+  /* 
+    二. 借用构造函数（call）
+    优点: 1. 可以向父类传递参数. 2. 解决父类this共享问题
+    缺点: 1. 只能继承父类通过this声明的属性和方法,不能继承父类prototype上的属性或方法
+          2. 父类方法无法复用, 每次实例化子类, 都要执行父类函数. 重新声明父类定义的方法, 无法复用
+
+  */
+  /*   function Father(...arr) {
+    this.some = '父类继承'
+    this.params = arr
+    this.arr = [1,2,3]
+    this.fn = function (){
+      return 123
+    }
+  }
+  Father.prototype.someFn = function () {
+    console.log(1)
+  }
+  Father.prototype.someValue = '2'
+  function Son(fatherParams, ...sonParams){
+    // Father的this指向son的this
+    // 使用call调用父类, Father将会立即执行, 并且父类的Father的this执行Son的this
+    // 实例化子类, this将指向new期间创建的新对象, 返回该新对象
+    Father.call(this, ...fatherParams)
+    this.text = '子类属性'
+    this.sonParams = sonParams
+  }
+  let fatherParams = ['father']
+  let sonParams = ['son']
+  let son1 = new Son(fatherParams, sonParams)
+  let son2 = new Son(fatherParams, sonParams)
+  console.log(son1.params)  // ["father"]
+  console.log(son1.sonParams) // [["son"]]
+  son1.arr[1] = 99
+  console.log(son1.arr) //  [1, 99, 3]
+  console.log(son2.arr) //  [1, 2, 3]
+  console.log(son1.someValue) // undefined
+  console.log(son2.fn())   // 123
+  console.log(son2.someFn) // undefined
+  console.log(son1.fn === son2.fn) // false */
+
+  /* 
+    三. 组合继承（call+new）
+    原理: 通过原型链继承来将this / prototype上的属性和方法继承到子类的原型对象上
+    使用 借用构造函数来 继承 父类通过this声明的属性和方法 在子类的实例属性上
+    优点: （1）解决原型链继承父类this声明的属性或者方法被共享的问题。
+          （2）解决借用构造函数解决不能继承父类prototype对象上的属性/方法问题。
+    缺点: （1）调用了父类函数两次，造成一定的性能问题。
+          （2）因调用两次父类，导出父类通过this声明的属性和方法被生成两份的问题。
+          （3）原型链上下文丢失，子类和父类通过prototype声明的属性和方法都存在与子类prototype上。
+  */
+  /*   function Father (...arr){
+    this.some = '父类属性'
+    this.params = arr
+    this.fn = function (){
+      return 'fn'
+    }
+  }
+  Father.prototype.someFn = function () {
+    return 1
+  }
+  Father.prototype.someValue = '2'
+  function Son (fatherParams, ...sonParams){
+    // 借用构造函数继承父类this 的属性和方法  到子类的实例属性上
+    Father.call(this, ...fatherParams)
+    this.text = '子类属性'
+    this.sonParams = sonParams
+  }
+  // 原型链继承, 将this和prototype声明的属性继承到子类的prototype上
+  Son.prototype = new Father('111')
+  let arr = ['father']
+  let arr1 = ['son']
+  let son1 = new Son(arr, arr1)
+  let son2 = new Son(arr, arr1)
+  console.log(son1.someFn())  // 1
+  console.log(son1.params)  // ["father"]
+  console.log(son1.sonParams) // [["son"]]
+  console.log(son1.fn === son2.fn) // false */
+
+  /* 
+   四. 原型式继承
+   优点: 兼容性好，最简单的对象继承。
+   缺点: 多实例共享被继承的属性，存在被篡改的情况，不能传递参数。
+  */
+  /*   function cloneObj(obj){
+    function F(){}
+    // 将被继承的对象作为空函数的prototype
+    F.prototype = obj
+    // 返回 new 创建的新对象, 此对象的原型为被继承的对象
+    // 通过原型链查找可以拿到被继承对象的属性
+    return new F()
+  }
+  let obj = {
+    a: 123,
+    b: 'ok',
+    c: {
+      x: 3
+    }
+  }
+  let son1 = cloneObj(obj)
+  let son2 = cloneObj(obj)
+  console.log(son1.a) // 123
+  son1.a = 333
+  son1.c.x = 99
+  console.log(son2.a) // 123
+  console.log(son2.c) // {x: 99} */
+
+  /* 
+   五, 寄生式继承（继承过程封装）
+    创建一个仅用于封装继承过程的函数, 该函数在内部以某种方式增强对象, 最后返回对象, 在原型式继承的基础上进行增强对象
+    优点: 兼容性好，最简单的对象继承。
+    缺点: 多实例共享被继承的属性，存在被篡改的情况，不能传递参数。
+  */
+  /*  function cloneObject(obj){
+   function F(){}
+   F.prototype = obj
+   return new F()
+ }
+ function createAnother(original){
+   var clone = cloneObject(original) // 继承一个对象, 返回一个新函数
+   // do something 以某种方式来增强对象
+   clone.some = function(){}
+   clone.obkoro1 = '封装继承过程'
+   return clone
+ }
+ let obj = {
+    a: 123,
+    b: 'ok',
+    c: {
+      x: 3
+    }
+  }
+  let son1 = createAnother(obj)
+  let son2 = createAnother(obj)
+  console.log(son1.some == son2.some) // false
+  son1.a = 333
+  son1.c.x = 99
+  console.log(son2.a) // 123
+  console.log(son2.c) // {x: 99} */
+
+  /* 
+    六. 寄生组合式继承（call+寄生式封装）
+    1. 借用构造函数来继承父类this声明的属性和方法
+    2. 使用寄生式继承来设置父类prototype为子类prototype的原型来继承父类的属性
+    优点: 1. 寄生组合式继承是当前最成熟的继承方法,也是先用常用的继承方法, 在大多数js框架中都是用这种作为继承方案
+          2. 只调用父类构造函数一次, 节约性能
+          3. 避免生成了不必要的属性
+          4. 使用原型式继承保证了原型链上下文不变, 
+          子类的prototype只有子类通过prototype声明的属性和方法, 
+          父类的prototype只有父类通过prototype声明的属性和方法
+  */
+  /*   function Father(...arr) {
+    this.some = '父'
+    this.params = arr
+    this.arr = [1,2,3]
+  }
+  Father.prototype.someFn = function(){
+    return 1
+  }
+  Father.prototype.someValue = '2'
+  function Son(){
+    Father.call(this, 'params')
+    this.text = 'sontext'
+  }
+  function inhertPro (son, father) {
+    // 原型式继承 Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__
+    var fatherPototype = Object.create(father.prototype)
+    // 设置Son.prototype的原型为 Father.prototype
+    son.prototype = fatherPototype
+    // 修正constructor指向
+    // constructor的作用: 返回创建实例对象的Object构造函数的引用
+    // 这里保持constructor指向的一致性
+    son.prototype.constructor = son
+  }
+  inhertPro(Son, Father)
+  let son1 = new Son()
+  let son2 = new Son()
+  console.log(son1)
+  son1.arr[1] = 99
+  console.log(son2.arr) // [1, 2, 3]
+  console.log(son1.someFn()) // 1 */
+
+  /* 
+    七. ES6-extends继承
+    ES6可以用过extends关键字实现继承，这比通过ES5的修改原型链实现继承，要清晰和方便很多。
+
+    
+    子类必须在constructor方法中调用super方法，否则新建实例将会报错，
+    这是因为子类自己的this对象，必须先通过父类的构造函数完成实例化，得到父类的属性和方法，然后对其加工，加上子类自己的属性和方法。
+
+    如果不调用super方法，子类将得不到this对象。如果没有定义constructor方法，这个方法会被默认的添加。
+
+    ES6继承的原理跟寄生组合式继承是一样的。优缺点也相仿。
+    区别
+    ES5的继承实质是 先创建子类的实例对象this，然后将父类的方法添加到this上。
+
+    ES6的继承实质是 先将父类实例对象的方法和属性加到this上面，然后在用子类的构造函数修改this。
+  */
+  class Point {
+    constructor(name) {
+      this.text = 'father'
+      this.name = name
+      this.fn = function () {}
+    }
+  }
+  class ColorPoint extends Point {
+    constructor(name) {
+      super(name)
+      this.sonText = 'son'
+    }
+  }
+  let son1 = new ColorPoint('shetia')
+  let son2 = new ColorPoint('lizi')
+  console.log(son1.text)
+  console.log(son2.name)
+  console.log(son1.fn == son2.fn) // false
+
+
+  /* 
+  可以用Babel把ES6的代码装换为ES5，Babel 是一个工具链，
+  主要用于将 ECMAScript 2015+ 版本的代码转换为向后兼容的 JavaScript 语法，
+  以便能够运行在当前和旧版本的浏览器或其他环境中。网址：（https://www.babeljs.cn/repl）
+  
+  babel 转换之后 
+  */
+  ;('use strict')
+
+  function _typeof(obj) {
+    '@babel/helpers - typeof'
+    if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
+      _typeof = function _typeof(obj) {
+        return typeof obj
+      }
+    } else {
+      _typeof = function _typeof(obj) {
+        return obj &&
+          typeof Symbol === 'function' &&
+          obj.constructor === Symbol &&
+          obj !== Symbol.prototype
+          ? 'symbol'
+          : typeof obj
+      }
+    }
+    return _typeof(obj)
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== 'function' && superClass !== null) {
+      throw new TypeError('Super expression must either be null or a function')
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: { value: subClass, writable: true, configurable: true },
+    })
+    if (superClass) _setPrototypeOf(subClass, superClass)
+  }
+
+  function _setPrototypeOf(o, p) {
+    _setPrototypeOf =
+      Object.setPrototypeOf ||
+      function _setPrototypeOf(o, p) {
+        o.__proto__ = p
+        return o
+      }
+    return _setPrototypeOf(o, p)
+  }
+
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct()
+    return function _createSuperInternal() {
+      var Super = _getPrototypeOf(Derived),
+        result
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor
+        result = Reflect.construct(Super, arguments, NewTarget)
+      } else {
+        result = Super.apply(this, arguments)
+      }
+      return _possibleConstructorReturn(this, result)
+    }
+  }
+
+  function _possibleConstructorReturn(self, call) {
+    if (call && (_typeof(call) === 'object' || typeof call === 'function')) {
+      return call
+    }
+    return _assertThisInitialized(self)
+  }
+
+  function _assertThisInitialized(self) {
+    if (self === void 0) {
+      throw new ReferenceError(
+        "this hasn't been initialised - super() hasn't been called"
+      )
+    }
+    return self
+  }
+
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === 'undefined' || !Reflect.construct) return false
+    if (Reflect.construct.sham) return false
+    if (typeof Proxy === 'function') return true
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}))
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
+  function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf
+      ? Object.getPrototypeOf
+      : function _getPrototypeOf(o) {
+          return o.__proto__ || Object.getPrototypeOf(o)
+        }
+    return _getPrototypeOf(o)
+  }
+
+  function _instanceof(left, right) {
+    if (
+      right != null &&
+      typeof Symbol !== 'undefined' &&
+      right[Symbol.hasInstance]
+    ) {
+      return !!right[Symbol.hasInstance](left)
+    } else {
+      return left instanceof right
+    }
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!_instanceof(instance, Constructor)) {
+      throw new TypeError('Cannot call a class as a function')
+    }
+  }
+
+  var Point = function Point() {
+    _classCallCheck(this, Point)
+  }
+
+  var ColorPoint = /*#__PURE__*/ (function (_Point) {
+    _inherits(ColorPoint, _Point)
+
+    var _super = _createSuper(ColorPoint)
+
+    function ColorPoint() {
+      _classCallCheck(this, ColorPoint)
+
+      return _super.apply(this, arguments)
+    }
+
+    return ColorPoint
+  })(Point)
+</script>
