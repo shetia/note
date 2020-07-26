@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>requestAnimationFrame动画封装</title>
+</head>
+<body>
+  
+</body>
+</html>
+<script>
+/* 
+window.requestAnimationFrame() 
+告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。
+该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行
+若你想在浏览器下次重绘之前继续更新下一帧动画，那么回调函数自身必须再次调用window.requestAnimationFrame()
+*/
+// let id = window.requestAnimationFrame(function fn(time) {
+//   console.log(id)
+//   id = window.requestAnimationFrame(fn)
+
+// })
+//   setTimeout(() => {
+//     window.cancelAnimationFrame(id)
+//   }, 3000)
+
+/* 
+requestAnimationFrame动画封装
+*/
+class Animator {
+  constructor(duration, progress) {
+    this.progress = progress
+    this.next = true
+    this.duration = duration
+  }
+  start (finished) {
+    let startTime = new Date().getTime()
+    let duration = this.duration
+    let me = this
+    window.requestAnimationFrame(function step () {
+      let p = (new Date().getTime() - startTime) / duration
+      me.progress(p, p)
+      if(p >= 1.0){
+        me.progress(1.0, 1.0)
+        me.next = false
+        finished()
+      }
+      if(me.next){
+        window.requestAnimationFrame(step)
+      }
+    })
+  }
+  end () {
+    this.next = false
+  }
+}
+
+let an = new Animator(1000, function(a,b){
+  console.log(a)
+})
+an.start(function(){
+  console.log(123)
+})
+console.time()
+</script>
