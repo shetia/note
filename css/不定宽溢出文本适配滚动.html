@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>不定宽溢出文本适配滚动</title>
+  <style>
+    ul{
+      width: 200px;
+      border: 1px solid #ccc;
+      list-style: none;
+      padding: 0;
+      margin-bottom: 0;
+      padding: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+    li{
+      /* background: skyblue; */
+      margin-bottom: 12px;;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-block;  /**需要拿到实际文本的宽度 transform 是无法作用在内联元素之上的*/
+      transition: all 1s;
+    }
+    /*需要使用js判断当前文本是否超出, 超出才使用这个hover后的动画*/
+    li:hover{
+      animation: move 2s infinite alternate linear;
+    }
+    
+    @keyframes move{
+      from {
+        left: 0;
+        transform: translateX(0);
+      }
+      to{
+        left: 100%;
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <ul>
+    <li>我是文本我很长</li>
+    <li>我是文本我很长</li>
+    <li>我是文本我很长我是文本我很长我是文本我很长</li>
+    <li>我是文本我很长</li>
+  </ul>
+</body>
+</html>
