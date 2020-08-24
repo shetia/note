@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原生组件Web Components</title>
+</head>
+<body>
+  <!-- 根据规范，自定义元素的名称必须包含连词线，用与区别原生的 HTML 元素。所以，<user-card>不能写成<usercard> -->
+  <!-- <user-card></user-card> -->
+  <user-card
+    image="https://semantic-ui.com/images/avatar2/large/kristy.png"
+    name="User Name"
+    email="yourmail@some-email.com"
+  ></user-card>
+  <template id="userCardTemplate">
+    <!-- 组件的样式应该与代码封装在一起，只对自定义元素生效，不影响外部的全局样式。所以，可以把样式写在<template>里面。 -->
+    <style>
+      :host {
+        display: flex;
+        align-items: center;
+        width: 450px;
+        height: 180px;
+        background-color: #d4d4d4;
+        border: 1px solid #d5d5d5;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        padding: 10px;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
+      .image {
+        flex: 0 0 auto;
+        width: 160px;
+        height: 160px;
+        vertical-align: middle;
+        border-radius: 5px;
+      }
+      .container {
+        box-sizing: border-box;
+        padding: 20px;
+        height: 160px;
+      }
+      .container > .name {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1;
+        margin: 0;
+        margin-bottom: 5px;
+      }
+      .container > .email {
+        font-size: 12px;
+        opacity: 0.75;
+        line-height: 1;
+        margin: 0;
+        margin-bottom: 15px;
+      }
+      .container > .button {
+        padding: 10px 25px;
+        font-size: 12px;
+        border-radius: 5px;
+        text-transform: uppercase;
+      }
+     </style>
+    <!-- <img src="https://semantic-ui.com/images/avatar2/large/kristy.png" class="image">
+    <div class="container">
+      <p class="name">User Name</p>
+      <p class="email">yourmail@some-email.com</p>
+      <button class="button">Follow</button>
+    </div> -->
+    <!-- <user-card>内容现在是在<template>里面设定的，为了方便使用，把它改成参数。 -->
+    <img class="image">
+    <div class="container">
+      <p class="name"></p>
+      <p class="email"></p>
+      <button class="button">Follow John</button>
+    </div>
+  </template>
+</body>
+</html>
+<script>
+/* 自定义元素需要使用 JavaScript 定义一个类，所有<user-card>都会是这个类的实例 */
+/* class UserCard extends HTMLElement {
+  constructor() {
+    super();
+    var image = document.createElement('img');
+    image.src = 'https://semantic-ui.com/images/avatar2/large/kristy.png';
+    image.classList.add('image');
+
+    var container = document.createElement('div');
+    container.classList.add('container');
+
+    var name = document.createElement('p');
+    name.classList.add('name');
+    name.innerText = 'User Name';
+
+    var email = document.createElement('p');
+    email.classList.add('email');
+    email.innerText = 'yourmail@some-email.com';
+
+    var button = document.createElement('button');
+    button.classList.add('button');
+    button.innerText = 'Follow';
+
+    container.append(name, email, button);
+    this.append(image, container); // this表示自定义元素实例
+  }
+}
+window.customElements.define('user-card', UserCard); */
+
+</script>
+<script>
+  /* 使用 JavaScript 写上一节的 DOM 结构很麻烦，Web Components API 提供了<template>标签，可以在它里面使用 HTML 定义 DOM。 */
+  class UserCard extends HTMLElement {
+    constructor(){
+      super()
+      // 我们不希望用户能够看到<user-card>的内部代码，Web Component 允许内部代码隐藏起来，这叫做 Shadow DOM，即这部分 DOM 默认与外部 DOM 隔离，内部任何代码都无法影响外部。
+      var shadow = this.attachShadow( { mode: 'closed' } );
+      let templateElem = document.getElementById('userCardTemplate')
+      let content = templateElem.content.cloneNode(true)
+      content.querySelector('img').setAttribute('src', this.getAttribute('image'));
+      content.querySelector('.container>.name').innerText = this.getAttribute('name');
+      content.querySelector('.container>.email').innerText = this.getAttribute('email');
+      // this.append(content)
+      shadow.appendChild(content)
+
+      this.$button = shadow.querySelector('button');
+      this.$button.addEventListener('click', (e) => {
+        console.dir(this)
+        console.dir(e)
+        // do something
+      });
+    }
+  }
+  window.customElements.define('user-card', UserCard)
+
+
+  // 高级用法
+  /* 
+  https://www.robinwieruch.de/web-components-tutorial
+  https://developers.google.com/web/fundamentals/web-components/customelements
+   */
+</script>
