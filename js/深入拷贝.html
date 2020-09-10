@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+   自己用for in遍历的时候不支持对 Symbol属性 的处理
+</body>
+</html>
+<script>
+let obj = {
+    0: 'math',
+    1: 'chinese',
+    2: 'elglish',
+    score: {
+        math: 98,
+        chinese: 100,
+        elglish: 19,
+    },
+    reg: /\d+/img,
+    time: new Date,
+    friends: ['tom', 'jerry'],
+    say: function () {
+        console.log('good good study!');
+    },
+    tag: Symbol('TAG'),
+    [Symbol.toStringTag]: 'object'
+};
+
+function getType(obj) {
+  return {}.toString.call(obj).split(' ')[1].slice(0, -1)
+}
+// 浅拷贝
+function shallowCopy (obj) {
+  let Ctor = obj.constructor
+  let type = getType(obj)
+  // 1. 对于symbol和bigInt
+  if(/^(symbol|bigint)&/i.test(type)) return Object(obj)
+  // 2. 对于是error
+  if(/^error$/i.test(type)) return new Ctor(obj.message)
+  // 3. regexp/ date
+  if(/^(regexp|date)$/i.test(type)) return new Ctor(obj)
+  // 4. function // 返回新函数：新函数执行还是把原始函数执行，实现和原始函数相同的效果
+  if(/^function$/i.test(type)) {
+    return function () {
+      return obj.call(this, ...arguments)
+    }
+  }
+  // 5. object array
+  if(/^(object|array)$/i.test(type)){
+    // 获取键
+    let keys = [
+      ...Object.keys(obj),
+      ...Object.getOwnPropertySymbols(obj)
+    ]
+    let newObj = new Ctor()
+    for(let key of keys) {
+      newObj[key] = obj[key]
+    }
+    return newObj
+  }
+  return obj
+}
+let obj1 = shallowCopy(obj)
+let obj2 = {...obj}
+
+// let obj3 = {
+//   [Symbol.toStringTag]: "object"
+// }
+// console.log(obj3)
+
+// 深拷贝   
+function deepCopy (obj, set = new Set()) {
+  let Ctor = obj.constructor
+  let type = getType(obj)
+  if(!/^(array|object)$/i.test(type)) return shallowCopy(obj)
+  if(set.has(obj)) return obj   // 防止循环引用
+  set.add(obj)
+  let keys = [
+    ...Object.keys(obj),
+    ...Object.getOwnPropertySymbols(obj)
+  ]
+  let result = new Ctor()
+  for(let key of keys){
+    result[key] = deepCopy(obj[key], set)
+  }
+  return result
+}
+
+obj.a = obj
+let obj3 = deepCopy(obj)
+console.log(obj3, 666)
+</script>
