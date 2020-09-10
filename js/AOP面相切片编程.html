@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+<script>
+  /*
+  AOP(面向切面编程)的主要作用是把一些跟核心业务逻辑模块无关的功能抽离出来，这些跟业务逻辑无关的功能通常包括日志统计、安全控制、异常处理等。把这些功能抽离出来之后， 再通过“动态织入”的方式掺入业务逻辑模块中。
+  */
+Function.prototype.before = function (cb) {
+  if(typeof cb !== 'function') throw TypeError(`${cb} is not a function`)
+  let _this = this
+  // console.log(this) this === func
+  return function (...arg) {
+    // console.log(this) this === window
+    cb.call(this, ...arg)
+    return _this.call(this, ...arg)
+  }
+}
+
+Function.prototype.after = function (cb) {
+  if(typeof cb !== 'function') throw TypeError(`${cb} is not a function`)
+  let _this = this
+  return function (...arg) {
+    let res = _this.call(this, ...arg)
+    cb.call(this, ...arg)
+    return res
+  }
+}
+
+let func = (ab) => {
+    // 主要的业务逻辑
+    console.log('func', ab);
+};
+
+func.before(() => {
+    console.log('===before===');
+}).after(() => {
+    console.log('===after===');
+}).before(() => {
+  console.log('后before')
+}).after(() => {
+  console.log('后after')
+})(123);
+</script>
