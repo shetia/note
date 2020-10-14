@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+<script>
+  function repeat(func, times, wait){
+    return async (...args) => {
+      let i = 0
+      while(i++ < times){
+        await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            func.call(this, ...args)
+            resolve()
+          }, wait)
+        })
+      }
+    }
+  }
+  const repeatFnuc = repeat(alert, 4, 3000)
+  repeatFnuc('hello world')
+</script>
