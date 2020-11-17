@@ -37,4 +37,16 @@ window.addEventListener('copy', (e) => {
     //阻止默认行为，否则无法重置被选中的内容。
     e.preventDefault();
 })
+
+
+// document.execCommand()  // 方法处理Html数据时常用语法格式如下:
+// document.execCommand(sCommand[,交互方式, 动态参数])
+/* 
+〖全选〗命令的实现
+document.execCommand('selectAll')
+〖打印〗命令的实现
+document.execCommand('print')
+//复制选中的文字到剪贴板;
+document.execCommand(”Copy”,”false”,null);
+*/
 </script>
