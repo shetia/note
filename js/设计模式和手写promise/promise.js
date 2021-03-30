@@ -180,4 +180,14 @@ Promise.all = function(values){
     }
   })
 }
+Promise.resolve = function(value) {
+  return new Promise((resolve, reject) => {
+    resolve(value)
+  })
+}
+Promise.reject = function(value){
+  return new Promise((resolve, reject) => {
+    reject(value)
+  })
+}
 module.exports = Promise
