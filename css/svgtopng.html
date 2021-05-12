@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <svg t="1620785129472" class="icon" viewBox="0 0 1027 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11933" width="64" height="64"  style="border-radius: 6px;">
+      <path d="M5.833322 5.82612h1018.17388v1018.188283H5.833322z" fill="#ff7e45" p-id="11934" data-spm-anchor-id="a313x.7781069.0.i3" class="selected"></path>
+      <path d="M5.833322 5.82612l1018.166678 1018.181082M5.833322 1024.007202L1024 5.82612" fill="#ff7e45" p-id="11935"></path>
+      <path d="M983.894114 568.115114l-158.918405-159.321697V224.654898a41.13572 41.13572 0 0 0-41.142922-41.135719h-183.56959l-47.091469-47.221099a41.121317 41.121317 0 0 0-29.1306-12.091539h-1.073043a41.121317 41.121317 0 0 0-29.08739 12.084337L63.143906 568.129517a41.142921 41.142921 0 1 0 58.2612 58.102764l35.396019-35.482439v261.908939a41.13572 41.13572 0 0 0 41.13572 41.135719h217.07158a41.13572 41.13572 0 0 0 41.142922-41.135719V674.108728h134.735326v178.550053a41.13572 41.13572 0 0 0 41.142921 41.135719h217.085984a41.13572 41.13572 0 0 0 41.142921-41.135719V590.749842l35.403221 35.48964a41.13572 41.13572 0 1 0 58.232394-58.124368z m-241.204248-302.317294v60.508109l-60.356875-60.508109h60.356875z" fill="#ffffff" p-id="11936" data-spm-anchor-id="a313x.7781069.0.i0" class="selected"></path>
+      <text x="240" y="640" font-size="280" style="fill:#ff7e45;font-weight:600;">ABS</text> 
+    </svg>
+  </div>
+  <button onclick="change()">保存</button>
+</body>
+</html>
+
+<script>
+(function (global) {
+    global.svgToPng = function (svgHtml) {
+        this.svgHtml = svgHtml;
+    };
+    global.svgToPng.prototype = {
+        change:function (filename) {
+            var This = this;
+            [
+                ['version', 1.1],
+                ['xmlns', "http://www.w3.org/2000/svg"],
+            ].forEach(function(item){
+                This.svgHtml.setAttribute(item[0], item[1]);
+            });
+            var str = This.svgHtml.parentNode.innerHTML;
+ 
+            //2.生成img
+            var img = document.createElement('img');
+ 
+            img.onload = function(){
+                //3生成canvas
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext("2d");
+ 
+                canvas.width = img.width;
+                canvas.height = img.height;
+ 
+                context.drawImage(img, 0, 0);
+ 
+                var canvasData = canvas.toDataURL("image/png");
+                var img2 = document.createElement('img');
+                img2.onload = function () {
+                    console.log('change2');
+                    var a = document.createElement("a");
+                    a.download = filename + ".png";
+                    a.href = img2.getAttribute('src');
+                    a.click();
+                };
+                // Make pngImg's source the canvas data.
+                img2.setAttribute('src', canvasData);
+            };
+ 
+            // Make the new img's source an SVG image.
+            img.setAttribute('src', 'data:image/svg+xml;base64,'+ btoa(unescape(encodeURIComponent(str))));
+        }
+    }
+}(this))
+var svg = document.querySelector('svg');
+var svgToPng = new svgToPng(svg);
+console.log(svg, svgToPng.change)
+function change() {
+  console.log('保存')
+  svgToPng.change('zhang');
+}
+</script>
