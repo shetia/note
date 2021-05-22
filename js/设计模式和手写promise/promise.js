@@ -136,6 +136,16 @@ class Promise{
     })
     return promise2
   }
+  catch (callback) { // catch 就是 then 方法的语法糖，直接调用即可
+    return this.then(null, callback)
+  }
+  finally (callback) { // finally 方法，无论如何都会走到这里来的。
+     return this.then(data => {
+       return Promise.resolve(callback()).then(() => data)
+     }, err => {
+       return Promise.resolve(callback()).then(() => {throw err})
+     })
+  }
 }
 // 延迟对象 测试入口 终端运行命令: promises-aplus-tests promise.js  会测试promise写的是否符合规范
 Promise.defer = Promise.deferred = function () {
