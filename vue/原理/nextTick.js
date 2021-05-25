@@ -55,6 +55,7 @@ vue原型上的$nextTick方法只是调用了nextTick方法
 
 const callbacks = []
 let pending = false
+// 执行回调
 function flushCallbacks () {
   pending = false
   let copies = callbacks.slice(0)
